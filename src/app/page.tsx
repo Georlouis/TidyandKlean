@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, UserCheck, MapPin } from "lucide-react";
+import { ArrowRight, ShieldCheck, UserCheck, MapPin, ThumbsUp, Star } from "lucide-react";
 import AnimatedCounter from "@/components/AnimatedCounter";
 
 export default function Home() {
