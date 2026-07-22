@@ -419,7 +419,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h5 className="font-bold text-lg">Sarah Mitchell</h5>
-                  <p className="text-sm font-medium text-gray-600">Orlando, FL</p>
+                  <p className="text-sm font-medium text-gray-600">Destin, FL</p>
                 </div>
               </div>
               {/* Folded corner effect */}
@@ -445,7 +445,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h5 className="font-bold text-lg">James Peterson</h5>
-                  <p className="text-sm font-medium text-gray-600">Miami, FL</p>
+                  <p className="text-sm font-medium text-gray-600">Destin, FL</p>
                 </div>
               </div>
               <div className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-gray-200/50 to-transparent"></div>
@@ -470,7 +470,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h5 className="font-bold text-lg">Amanda Rodriguez</h5>
-                  <p className="text-sm font-medium text-gray-600">Tampa, FL</p>
+                  <p className="text-sm font-medium text-gray-600">Miramar Beach, FL</p>
                 </div>
               </div>
               <div className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-gray-200/50 to-transparent"></div>
