@@ -31,9 +31,9 @@ export default function Navbar() {
               <Link href="/partners" className="text-gray-700 hover:text-brand-magenta font-semibold text-sm transition-colors">Partners</Link>
               <Link href="/news" className="text-gray-700 hover:text-brand-magenta font-semibold text-sm transition-colors">News</Link>
               <Link href="/contact" className="text-gray-700 hover:text-brand-magenta font-semibold text-sm transition-colors">Contact</Link>
-              <a href="tel:+1555" className="bg-gradient-to-r from-brand-blue to-brand-magenta text-white px-6 py-2.5 rounded-full font-bold hover:shadow-lg hover:shadow-brand-magenta/30 hover:-translate-y-0.5 transition-all duration-300 text-sm">
+              <Link href="/contact" className="bg-gradient-to-r from-brand-blue to-brand-magenta text-white px-6 py-2.5 rounded-full font-bold hover:shadow-lg hover:shadow-brand-magenta/30 hover:-translate-y-0.5 transition-all duration-300 text-sm">
                 Get a Quote
-              </a>
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -60,9 +60,9 @@ export default function Navbar() {
             <Link href="/news" className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">News</Link>
             <Link href="/contact" className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">Contact</Link>
             <div className="px-4 pt-2">
-              <a href="tel:+1555" className="block w-full text-center bg-brand-blue text-white px-4 py-3 rounded-full font-bold hover:bg-brand-magenta transition-colors">
-                Call Us Now
-              </a>
+              <Link href="/contact" className="block w-full text-center bg-brand-blue text-white px-4 py-3 rounded-full font-bold hover:bg-brand-magenta transition-colors" onClick={() => setIsOpen(false)}>
+                Get a Quote
+              </Link>
             </div>
           </div>
         </div>

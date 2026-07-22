@@ -23,8 +23,8 @@ const posts = [
     image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800&q=80"
   },
   {
-    title: "Tidy & Klean Expands Services to Orlando",
-    excerpt: "We are thrilled to announce that our top-rated cleaning services are now available in the greater Orlando area.",
+    title: "Tidy & Klean Launches New Packages for Vacation Rentals",
+    excerpt: "We are thrilled to announce new specialized cleaning packages for Airbnb and vacation rentals in the Destin and Fort Walton Beach area.",
     date: "January 10, 2026",
     category: "Company News",
     image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"

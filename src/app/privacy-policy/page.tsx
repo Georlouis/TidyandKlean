@@ -62,7 +62,6 @@ export default function PrivacyPolicyPage() {
           <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us:</p>
           <div className="bg-gray-50 p-6 rounded-2xl mt-6 border border-gray-100">
             <p className="font-semibold text-gray-900">Tidy & Klean Cleaning Service LLC</p>
-            <p>14 Windham Av. Se.</p>
             <p>Fort Walton Beach, FL</p>
             <p className="mt-2"><strong>Email:</strong> info@tidyandklean.com</p>
           </div>

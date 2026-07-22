@@ -33,9 +33,9 @@ export default function Home() {
               We provide top-tier residential and commercial properties cleaning with unparalleled attention to detail.
             </p>
             <div className="flex flex-col sm:flex-row items-start gap-4">
-              <a href="tel:+15551234567" className="bg-gradient-to-r from-brand-magenta to-purple-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg hover:shadow-brand-magenta/40 hover:-translate-y-1 transition-all duration-300 flex items-center group">
-                Book a Cleaning <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </a>
+              <Link href="/contact" className="bg-gradient-to-r from-brand-magenta to-purple-500 text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-lg hover:shadow-brand-magenta/40 hover:-translate-y-1 transition-all duration-300 flex items-center group">
+                Contact Us <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
               <Link href="/services" className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 hover:-translate-y-1 transition-all duration-300">
                 Explore Services
               </Link>
@@ -510,9 +510,9 @@ export default function Home() {
             <Link href="/contact" className="w-full sm:w-auto bg-white text-brand-blue px-10 py-5 rounded-full font-extrabold text-xl hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:-translate-y-1 transition-all duration-300 flex items-center justify-center group">
               Get a Free Quote <ArrowRight className="ml-3 h-6 w-6 group-hover:translate-x-2 transition-transform" />
             </Link>
-            <a href="tel:+15551234567" className="w-full sm:w-auto bg-transparent border-2 border-white/30 text-white px-10 py-5 rounded-full font-bold text-xl hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center">
-              Call (555) 123-4567
-            </a>
+            <Link href="/services" className="w-full sm:w-auto bg-transparent border-2 border-white/30 text-white px-10 py-5 rounded-full font-bold text-xl hover:bg-white/10 hover:-translate-y-1 transition-all duration-300 flex items-center justify-center">
+              Our Services
+            </Link>
           </div>
         </div>
       </section>

@@ -86,17 +86,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <p className="text-sm text-gray-400 font-medium">Headquarters</p>
-                <p className="text-lg text-white font-bold leading-tight">...<br/>Fort Walton Beach FL</p>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-4 bg-white/10 backdrop-blur-lg border border-white/10 p-5 rounded-2xl w-full max-w-md transform hover:translate-x-2 transition-transform duration-300 shadow-xl">
-              <div className="w-12 h-12 rounded-full bg-brand-light/20 flex items-center justify-center flex-shrink-0">
-                <Phone className="h-5 w-5 text-brand-light" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-400 font-medium">Call us directly</p>
-                <a href="tel:+15551234567" className="text-xl text-white font-bold hover:text-brand-light transition-colors">+1 (555) </a>
+                <p className="text-lg text-white font-bold leading-tight">Tidy & Klean Cleaning Service LLC<br/>Fort Walton Beach, FL</p>
               </div>
             </div>
             

@@ -56,11 +56,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start">
                 <MapPin className="h-5 w-5 text-brand-magenta mr-3 mt-1 flex-shrink-0" />
-                <span className="text-gray-400">...<br/>Fort Walton Beach FL</span>
-              </li>
-              <li className="flex items-center">
-                <Phone className="h-5 w-5 text-brand-magenta mr-3 flex-shrink-0" />
-                <a href="tel:+15551234567" className="text-gray-400 hover:text-white transition-colors">+1 (555)</a>
+                <span className="text-gray-400">Fort Walton Beach, FL</span>
               </li>
               <li className="flex items-center">
                 <Mail className="h-5 w-5 text-brand-magenta mr-3 flex-shrink-0" />

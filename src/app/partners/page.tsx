@@ -19,18 +19,6 @@ const partners = [
     image: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80",
     icon: <Key className="w-8 h-8" />
   },
-  { 
-    name: "Oceanview Condominiums", 
-    role: "Residential Complex",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
-    icon: <Home className="w-8 h-8" />
-  },
-  { 
-    name: "Miami Tech Hub", 
-    role: "Commercial Office",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
-    icon: <Landmark className="w-8 h-8" />
-  },
 ];
 
 export default function PartnersPage() {
@@ -89,10 +77,10 @@ export default function PartnersPage() {
             
             <div className="md:w-1/3 mb-10 md:mb-0 relative z-10 flex flex-col items-center md:items-start text-center md:text-left border-b md:border-b-0 md:border-r border-gray-100 pb-10 md:pb-0 md:pr-12">
               <div className="w-24 h-24 rounded-full bg-brand-blue/10 flex items-center justify-center mb-6">
-                <Building2 className="w-10 h-10 text-brand-blue" />
+                <Home className="w-10 h-10 text-brand-blue" />
               </div>
-              <h4 className="text-2xl font-bold text-gray-900 mb-2">Beach Blue<br/>Properties, LLC</h4>
-              <p className="text-brand-magenta font-semibold mb-6">Strategic Partner</p>
+              <h4 className="text-2xl font-bold text-gray-900 mb-2">Airbnb &<br/>Vacation Rentals</h4>
+              <p className="text-brand-magenta font-semibold mb-6">Hosts & Property Managers</p>
               <div className="flex text-yellow-400">
                 <Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" />
               </div>
@@ -104,7 +92,7 @@ export default function PartnersPage() {
                 &quot;Tidy & Klean is our absolute go-to partner for all our vacation rentals. They never miss a detail, and their standard of luxury cleaning has directly increased our five-star guest reviews.&quot;
               </p>
               <p className="text-lg font-bold text-gray-500 uppercase tracking-widest relative z-10">
-                — Director of Operations
+                — Superhost Partner
               </p>
             </div>
             
