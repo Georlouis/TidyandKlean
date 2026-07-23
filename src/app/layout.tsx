@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://www.tidyandklean.com'),
   title: "Tidy & Klean | Professional Cleaning Services in Florida",
   description: "Top-quality cleaning services in Florida. Deep clean, move-in/move-out, HSK departure clean, and more. Contact us today!",
-  keywords: "cleaning services, Florida, deep clean, house keeping, Tidy & Klean",
+  keywords: "professional cleaning services Florida, vacation rental cleaning, Airbnb turnover cleaning, move in out cleaners, deep cleaning Florida, Tidy and Klean, housekeeping services, residential commercial cleaners",
   openGraph: {
     title: 'Tidy & Klean | Professional Cleaning Services',
     description: 'Top-quality cleaning services in Florida. Deep clean, move-in/move-out, and HSK departure clean.',
@@ -42,6 +42,27 @@ export default function RootLayout({
     >
       <head>
         <link rel="preconnect" href="https://images.unsplash.com" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "CleaningService",
+              "name": "Tidy & Klean",
+              "image": "https://www.tidyandklean.com/logo.png",
+              "@id": "https://www.tidyandklean.com",
+              "url": "https://www.tidyandklean.com",
+              "address": {
+                "@type": "PostalAddress",
+                "addressRegion": "FL",
+                "addressCountry": "US"
+              },
+              "priceRange": "$$",
+              "description": "Top-quality professional cleaning services in Florida. Specialized in deep cleaning, move-in/out, and vacation rental turnovers.",
+              "areaServed": "Florida"
+            })
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col font-sans overflow-x-hidden">
         <Navbar />

@@ -193,7 +193,7 @@ export default function Home() {
                 <h3 className="text-3xl font-bold text-white mb-3">Deep Cleaning</h3>
                 <p className="text-gray-300 mb-6 line-clamp-2">Thorough, top-to-bottom cleaning that reaches the hidden dirt and grime in your home.</p>
                 <div className="mt-auto flex justify-between items-center">
-                  <Link href="/services" className="text-brand-light font-bold uppercase tracking-wider text-sm group-hover:text-white transition-colors">
+                  <Link href="/services" aria-label="Learn more about our Deep Cleaning services" title="Learn more about Deep Cleaning" className="text-brand-light font-bold uppercase tracking-wider text-sm group-hover:text-white transition-colors">
                     Learn More
                   </Link>
                   <div className="w-12 h-12 rounded-full bg-brand-magenta text-white flex items-center justify-center transform group-hover:scale-110 transition-transform">
@@ -217,7 +217,7 @@ export default function Home() {
                 <h3 className="text-3xl font-bold text-white mb-3">HSK Departure</h3>
                 <p className="text-brand-light mb-6 line-clamp-2">Specialized housekeeping for vacation rentals and Airbnb turnovers. Ready for the next guest.</p>
                 <div className="mt-auto flex justify-between items-center">
-                  <Link href="/services" className="text-white font-bold uppercase tracking-wider text-sm transition-colors">
+                  <Link href="/services" aria-label="Learn more about our HSK Departure cleaning services" title="Learn more about HSK Departure" className="text-white font-bold uppercase tracking-wider text-sm transition-colors">
                     Learn More
                   </Link>
                   <div className="w-12 h-12 rounded-full bg-white text-brand-blue flex items-center justify-center transform group-hover:scale-110 transition-transform">
@@ -241,7 +241,7 @@ export default function Home() {
                 <h3 className="text-3xl font-bold text-white mb-3">Move-In / Out</h3>
                 <p className="text-gray-300 mb-6 line-clamp-2">Make your transition smooth with a perfectly clean new home or leave the old one spotless.</p>
                 <div className="mt-auto flex justify-between items-center">
-                  <Link href="/services" className="text-brand-light font-bold uppercase tracking-wider text-sm group-hover:text-white transition-colors">
+                  <Link href="/services" aria-label="Learn more about our Move-In and Move-Out cleaning services" title="Learn more about Move-In/Out Cleaning" className="text-brand-light font-bold uppercase tracking-wider text-sm group-hover:text-white transition-colors">
                     Learn More
                   </Link>
                   <div className="w-12 h-12 rounded-full bg-brand-light text-gray-900 flex items-center justify-center transform group-hover:scale-110 transition-transform">
