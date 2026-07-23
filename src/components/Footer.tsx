@@ -20,9 +20,9 @@ export default function Footer() {
               Professional cleaning services in Florida. We deliver top-quality results to keep your spaces spotless and fresh.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-brand-light transition-colors"><Globe className="h-5 w-5" /></a>
-              <a href="#" className="text-gray-400 hover:text-brand-light transition-colors"><Globe className="h-5 w-5" /></a>
-              <a href="#" className="text-gray-400 hover:text-brand-light transition-colors"><Globe className="h-5 w-5" /></a>
+              <a href="#" aria-label="Facebook" className="text-gray-400 hover:text-brand-light transition-colors"><Globe className="h-5 w-5" /></a>
+              <a href="#" aria-label="Instagram" className="text-gray-400 hover:text-brand-light transition-colors"><Globe className="h-5 w-5" /></a>
+              <a href="#" aria-label="Twitter" className="text-gray-400 hover:text-brand-light transition-colors"><Globe className="h-5 w-5" /></a>
             </div>
           </div>
 

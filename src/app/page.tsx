@@ -52,25 +52,25 @@ export default function Home() {
             <span className="text-4xl font-extrabold text-brand-blue mb-2">
               <AnimatedCounter prefix="+" end={5000} />
             </span>
-            <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Cleanings Done</span>
+            <span className="text-sm font-semibold text-gray-600 uppercase tracking-wider">Cleanings Done</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-4xl font-extrabold text-brand-magenta mb-2">
               <AnimatedCounter end={99} suffix="%" />
             </span>
-            <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Happy Clients</span>
+            <span className="text-sm font-semibold text-gray-600 uppercase tracking-wider">Happy Clients</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-4xl font-extrabold text-brand-blue mb-2">
               <AnimatedCounter prefix="+" end={50} />
             </span>
-            <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Pro Cleaners</span>
+            <span className="text-sm font-semibold text-gray-600 uppercase tracking-wider">Pro Cleaners</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-4xl font-extrabold text-brand-magenta mb-2">
               <AnimatedCounter end={4.9} decimals={1} suffix="/5" />
             </span>
-            <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Average Rating</span>
+            <span className="text-sm font-semibold text-gray-600 uppercase tracking-wider">Average Rating</span>
           </div>
         </div>
       </section>
@@ -137,7 +137,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-extrabold text-brand-blue mb-4 tracking-tight">See Our Magic in Action</h2>
-            <p className="text-gray-500 max-w-2xl mx-auto text-xl">
+            <p className="text-gray-600 max-w-2xl mx-auto text-xl">
               Watch how our professional team transforms messy spaces into pristine sanctuaries. We take pride in our attention to detail.
             </p>
           </div>
@@ -153,6 +153,7 @@ export default function Home() {
                 poster="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80"
               >
                 <source src="https://cdn.coverr.co/videos/coverr-cleaning-the-house-2553/1080p.mp4" type="video/mp4" />
+                <track kind="captions" srcLang="en" label="English" default />
                 Your browser does not support the video tag.
               </video>
               
@@ -172,7 +173,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-extrabold text-brand-blue mb-4 tracking-tight">Our Core Services</h2>
-            <p className="text-gray-500 max-w-2xl mx-auto text-xl">
+            <p className="text-gray-600 max-w-2xl mx-auto text-xl">
               Tailored cleaning solutions to meet your specific needs in Florida.
             </p>
           </div>
@@ -363,8 +364,8 @@ export default function Home() {
                     <UserCheck className="h-7 w-7 text-brand-magenta group-hover:text-white transition-colors duration-300" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-2xl mb-2 text-gray-900">Vetted Professionals</h4>
-                    <p className="text-gray-500 text-lg">Our staff is fully trained, background-checked, and highly insured for your peace of mind.</p>
+                    <h3 className="font-bold text-2xl mb-2 text-gray-900">Vetted Professionals</h3>
+                    <p className="text-gray-600 text-lg">Our staff is fully trained, background-checked, and highly insured for your peace of mind.</p>
                   </div>
                 </div>
                 
@@ -373,8 +374,8 @@ export default function Home() {
                     <ShieldCheck className="h-7 w-7 text-brand-blue group-hover:text-white transition-colors duration-300" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-2xl mb-2 text-gray-900">Eco-Friendly Options</h4>
-                    <p className="text-gray-500 text-lg">We offer premium green cleaning solutions safe for your pets, children, and the planet.</p>
+                    <h3 className="font-bold text-2xl mb-2 text-gray-900">Eco-Friendly Options</h3>
+                    <p className="text-gray-600 text-lg">We offer premium green cleaning solutions safe for your pets, children, and the planet.</p>
                   </div>
                 </div>
                 
@@ -383,8 +384,8 @@ export default function Home() {
                     <Star className="h-7 w-7 text-gray-700 group-hover:text-gray-900 transition-colors duration-300" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-2xl mb-2 text-gray-900">Satisfaction Guaranteed</h4>
-                    <p className="text-gray-500 text-lg">Not completely happy? We will return and re-clean it for free within 24 hours.</p>
+                    <h3 className="font-bold text-2xl mb-2 text-gray-900">Satisfaction Guaranteed</h3>
+                    <p className="text-gray-600 text-lg">Not completely happy? We will return and re-clean it for free within 24 hours.</p>
                   </div>
                 </div>
               </div>
@@ -398,7 +399,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-extrabold text-brand-blue mb-4 tracking-tight">Loved by Homeowners</h2>
-            <p className="text-gray-500 max-w-2xl mx-auto text-xl">
+            <p className="text-gray-600 max-w-2xl mx-auto text-xl">
               Real notes from real clients. Our reputation is built on spotless results.
             </p>
           </div>
@@ -424,8 +425,8 @@ export default function Home() {
                   SM
                 </div>
                 <div>
-                  <h5 className="font-bold text-lg">Sarah Mitchell</h5>
-                  <p className="text-sm font-medium text-gray-600">Destin, FL</p>
+                  <h3 className="font-bold text-lg">Sarah Mitchell</h3>
+                  <p className="text-sm font-medium text-gray-700">Destin, FL</p>
                 </div>
               </div>
               {/* Folded corner effect */}
@@ -450,8 +451,8 @@ export default function Home() {
                   JP
                 </div>
                 <div>
-                  <h5 className="font-bold text-lg">James Peterson</h5>
-                  <p className="text-sm font-medium text-gray-600">Destin, FL</p>
+                  <h3 className="font-bold text-lg">James Peterson</h3>
+                  <p className="text-sm font-medium text-gray-700">Destin, FL</p>
                 </div>
               </div>
               <div className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-gray-200/50 to-transparent"></div>
@@ -475,8 +476,8 @@ export default function Home() {
                   AR
                 </div>
                 <div>
-                  <h5 className="font-bold text-lg">Amanda Rodriguez</h5>
-                  <p className="text-sm font-medium text-gray-600">Miramar Beach, FL</p>
+                  <h3 className="font-bold text-lg">Amanda Rodriguez</h3>
+                  <p className="text-sm font-medium text-gray-700">Miramar Beach, FL</p>
                 </div>
               </div>
               <div className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-gray-200/50 to-transparent"></div>

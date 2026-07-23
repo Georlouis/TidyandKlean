@@ -40,6 +40,7 @@ export default function Navbar() {
             <div className="flex items-center md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
+                aria-label="Toggle menu"
                 className="text-gray-700 hover:text-brand-blue focus:outline-none p-2 rounded-full hover:bg-gray-100"
               >
                 {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
