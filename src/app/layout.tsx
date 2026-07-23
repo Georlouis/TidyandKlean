@@ -40,6 +40,9 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="preconnect" href="https://images.unsplash.com" />
+      </head>
       <body className="min-h-full flex flex-col font-sans overflow-x-hidden">
         <Navbar />
         <main className="flex-grow pt-20">

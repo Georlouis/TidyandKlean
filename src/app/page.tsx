@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, UserCheck, MapPin, ThumbsUp, Star } from "lucide-react";
-import AnimatedCounter from "@/components/AnimatedCounter";
+import dynamic from "next/dynamic";
+
+const AnimatedCounter = dynamic(() => import("@/components/AnimatedCounter"), { ssr: false });
 
 export default function Home() {
   return (
