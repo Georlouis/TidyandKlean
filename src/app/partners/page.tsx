@@ -53,6 +53,7 @@ export default function PartnersPage() {
                 src={partner.image}
                 alt={partner.name}
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
               />
               {/* Glassmorphism gradient overlay */}
@@ -71,7 +72,7 @@ export default function PartnersPage() {
 
         {/* Editorial Testimonial Block */}
         <div className="mt-32 mb-10">
-          <div className="bg-white rounded-[3rem] p-12 md:p-24 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 relative overflow-hidden flex flex-col md:flex-row items-center">
+          <div className="bg-white rounded-[3rem] p-8 md:p-24 shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 relative overflow-hidden flex flex-col md:flex-row items-center">
             
             <div className="absolute top-0 left-0 w-64 h-64 bg-brand-light/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
             

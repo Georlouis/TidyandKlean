@@ -13,6 +13,7 @@ export default function Home() {
             src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1920&q=80"
             alt="Luxury clean living room"
             fill
+            sizes="100vw"
             className="object-cover"
             priority
           />
@@ -94,7 +95,7 @@ export default function Home() {
       {/* Service Area (Local SEO) */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-brand-blue text-white rounded-[2rem] p-10 md:p-16 shadow-[0_20px_50px_rgba(8,_112,_184,_0.25)] relative overflow-hidden flex flex-col md:flex-row items-center justify-between border border-white/10">
+          <div className="bg-brand-blue text-white rounded-[2rem] p-6 md:p-16 shadow-[0_20px_50px_rgba(8,_112,_184,_0.25)] relative overflow-hidden flex flex-col md:flex-row items-center justify-between border border-white/10">
             {/* Elegant glassmorphism blobs */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-magenta/30 rounded-full blur-[80px] -z-0 translate-x-1/3 -translate-y-1/3"></div>
             <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-light/20 rounded-full blur-[60px] -z-0 -translate-x-1/2 translate-y-1/2"></div>
@@ -115,12 +116,13 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="md:w-5/12 relative z-10">
+            <div className="w-full md:w-5/12 relative z-10 mt-10 md:mt-0">
               <div className="relative h-[400px] rounded-[1.5rem] overflow-hidden shadow-2xl border-[6px] border-white/10 rotate-2 hover:rotate-0 transition-transform duration-500 bg-white">
                 <Image 
                   src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
                   alt="Luxury Florida Homes"
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
                 />
               </div>
@@ -182,6 +184,7 @@ export default function Home() {
                 src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80"
                 alt="Deep Cleaning Kitchen"
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover group-hover:scale-110 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent"></div>
@@ -205,6 +208,7 @@ export default function Home() {
                 src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80"
                 alt="HSK Departure Clean Bedroom"
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover group-hover:scale-110 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/90 via-brand-blue/40 to-transparent"></div>
@@ -228,6 +232,7 @@ export default function Home() {
                 src="https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=800&q=80"
                 alt="Move In / Out Living Room"
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover group-hover:scale-110 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent"></div>
@@ -275,7 +280,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative mt-16">
             
             {/* Step 1 */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] hover:bg-white/10 transition-all duration-500 group relative shadow-2xl">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[2.5rem] hover:bg-white/10 transition-all duration-500 group relative shadow-2xl">
               <div className="absolute -top-10 left-10 w-20 h-20 bg-gradient-to-br from-brand-blue to-cyan-500 rounded-2xl flex items-center justify-center text-3xl font-black text-white shadow-[0_10px_20px_rgba(14,165,233,0.3)] transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500">
                 1
               </div>
@@ -288,7 +293,7 @@ export default function Home() {
             </div>
             
             {/* Step 2 */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] hover:bg-white/10 transition-all duration-500 group relative shadow-2xl md:mt-16">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[2.5rem] hover:bg-white/10 transition-all duration-500 group relative shadow-2xl md:mt-16">
               <div className="absolute -top-10 left-10 w-20 h-20 bg-gradient-to-br from-brand-magenta to-purple-600 rounded-2xl flex items-center justify-center text-3xl font-black text-white shadow-[0_10px_20px_rgba(217,70,239,0.3)] transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
                 2
               </div>
@@ -301,7 +306,7 @@ export default function Home() {
             </div>
             
             {/* Step 3 */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] hover:bg-white/10 transition-all duration-500 group relative shadow-2xl md:mt-32">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[2.5rem] hover:bg-white/10 transition-all duration-500 group relative shadow-2xl md:mt-32">
               <div className="absolute -top-10 left-10 w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-600 rounded-2xl flex items-center justify-center text-3xl font-black text-white shadow-[0_10px_20px_rgba(52,211,153,0.3)] transform group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500">
                 3
               </div>
@@ -329,6 +334,7 @@ export default function Home() {
                   src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=800&q=80"
                   alt="Professional cleaning team"
                   fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
                 />
               </div>

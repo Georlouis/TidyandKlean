@@ -17,6 +17,7 @@ export default function AboutPage() {
           src="https://images.unsplash.com/photo-1527515637-edb9859f9de6?auto=format&fit=crop&w=1920&q=80" 
           alt="Premium cleaning service" 
           fill 
+          sizes="100vw"
           className="object-cover opacity-50"
           priority
         />
@@ -37,7 +38,7 @@ export default function AboutPage() {
 
       {/* 2. Authority Stats Bar */}
       <section className="relative -mt-16 z-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 p-10 grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-gray-100">
+        <div className="bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 p-6 md:p-10 grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-gray-100">
           <div className="text-center px-4">
             <div className="text-4xl md:text-5xl font-extrabold text-brand-blue mb-2">
               <AnimatedCounter end={10} suffix="+" />
@@ -107,6 +108,7 @@ export default function AboutPage() {
                 src="https://images.unsplash.com/photo-1613506132712-1f4a9b6c166b?auto=format&fit=crop&w=800&q=80"
                 alt="Detailed premium cleaning"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>
@@ -115,6 +117,7 @@ export default function AboutPage() {
                 src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
                 alt="Sparkling clean interior"
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>
@@ -140,7 +143,7 @@ export default function AboutPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Step 1 */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] hover:bg-white/10 transition-colors duration-300 group">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[2.5rem] hover:bg-white/10 transition-colors duration-300 group">
               <div className="w-20 h-20 bg-gradient-to-br from-brand-light to-brand-blue rounded-2xl flex items-center justify-center text-3xl font-black text-white mb-8 shadow-lg transform group-hover:scale-110 transition-transform duration-300 -rotate-3">
                 1
               </div>
@@ -151,7 +154,7 @@ export default function AboutPage() {
             </div>
             
             {/* Step 2 */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] hover:bg-white/10 transition-colors duration-300 group transform md:translate-y-8">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[2.5rem] hover:bg-white/10 transition-colors duration-300 group transform md:translate-y-8">
               <div className="w-20 h-20 bg-gradient-to-br from-brand-magenta to-purple-600 rounded-2xl flex items-center justify-center text-3xl font-black text-white mb-8 shadow-lg transform group-hover:scale-110 transition-transform duration-300 rotate-3">
                 2
               </div>
@@ -162,7 +165,7 @@ export default function AboutPage() {
             </div>
             
             {/* Step 3 */}
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-10 rounded-[2.5rem] hover:bg-white/10 transition-colors duration-300 group">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[2.5rem] hover:bg-white/10 transition-colors duration-300 group">
               <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-emerald-600 rounded-2xl flex items-center justify-center mb-8 shadow-lg transform group-hover:scale-110 transition-transform duration-300 -rotate-3">
                 <CheckCircle2 className="w-10 h-10 text-white" />
               </div>

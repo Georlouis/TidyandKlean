@@ -53,12 +53,12 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden max-w-7xl mx-auto mt-2 bg-white/95 backdrop-blur-lg border border-gray-100 rounded-3xl shadow-xl overflow-hidden">
           <div className="px-4 pt-4 pb-6 space-y-2">
-            <Link href="/" className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">Home</Link>
-            <Link href="/services" className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">Services</Link>
-            <Link href="/about" className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">About Us</Link>
-            <Link href="/partners" className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">Partners</Link>
-            <Link href="/news" className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">News</Link>
-            <Link href="/contact" className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">Contact</Link>
+            <Link href="/" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">Home</Link>
+            <Link href="/services" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">Services</Link>
+            <Link href="/about" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">About Us</Link>
+            <Link href="/partners" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">Partners</Link>
+            <Link href="/news" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">News</Link>
+            <Link href="/contact" onClick={() => setIsOpen(false)} className="block px-4 py-3 text-gray-800 font-bold hover:bg-gray-50 hover:text-brand-magenta rounded-xl transition-colors">Contact</Link>
             <div className="px-4 pt-2">
               <Link href="/contact" className="block w-full text-center bg-brand-blue text-white px-4 py-3 rounded-full font-bold hover:bg-brand-magenta transition-colors" onClick={() => setIsOpen(false)}>
                 Get a Quote
