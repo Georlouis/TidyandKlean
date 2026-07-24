@@ -247,6 +247,7 @@ const SettingsSchema = z.object({
   twitterUrl: z.string().url().optional().or(z.literal('')),
   instagramUrl: z.string().url().optional().or(z.literal('')),
   linkedinUrl: z.string().url().optional().or(z.literal('')),
+  promoVideoUrl: z.string().url().optional().or(z.literal('')),
 });
 
 export async function updateSettings(prevState: any, formData: FormData) {
@@ -263,6 +264,7 @@ export async function updateSettings(prevState: any, formData: FormData) {
       twitterUrl: formData.get("twitterUrl"),
       instagramUrl: formData.get("instagramUrl"),
       linkedinUrl: formData.get("linkedinUrl"),
+      promoVideoUrl: formData.get("promoVideoUrl"),
     });
 
     // We only have one settings document, so we can just update the first one or create it if not exists.
@@ -282,5 +284,75 @@ export async function updateSettings(prevState: any, formData: FormData) {
   } catch (error: any) {
     if (error instanceof z.ZodError) return { error: (error as any).errors[0].message };
     return { error: "An error occurred while updating site settings." };
+  }
+}
+
+// --- PARTNERS ---
+import Partner from "@/models/Partner";
+
+const PartnerSchema = z.object({
+  name: z.string().min(2, "Name is required"),
+  role: z.string().min(2, "Role is required"),
+  imageUrl: z.string().url("Valid image URL is required"),
+  iconName: z.string().min(2, "Icon name is required"),
+});
+
+export async function createPartner(prevState: any, formData: FormData) {
+  try {
+    await requireAuth();
+    await dbConnect();
+    
+    const validatedFields = PartnerSchema.parse({
+      name: formData.get("name"),
+      role: formData.get("role"),
+      imageUrl: formData.get("imageUrl"),
+      iconName: formData.get("iconName"),
+    });
+
+    await Partner.create(validatedFields);
+    revalidatePath("/admin/partners");
+    revalidatePath("/partners");
+    revalidatePath("/");
+    return { success: "Partner created successfully.", timestamp: Date.now() };
+  } catch (error: any) {
+    if (error instanceof z.ZodError) return { error: (error as any).errors[0].message };
+    return { error: "An error occurred while creating the partner." };
+  }
+}
+
+export async function updatePartner(id: string, prevState: any, formData: FormData) {
+  try {
+    await requireAuth();
+    await dbConnect();
+    
+    const validatedFields = PartnerSchema.parse({
+      name: formData.get("name"),
+      role: formData.get("role"),
+      imageUrl: formData.get("imageUrl"),
+      iconName: formData.get("iconName"),
+    });
+
+    await Partner.findByIdAndUpdate(id, validatedFields);
+    revalidatePath("/admin/partners");
+    revalidatePath("/partners");
+    revalidatePath("/");
+    return { success: "Partner updated successfully.", timestamp: Date.now() };
+  } catch (error: any) {
+    if (error instanceof z.ZodError) return { error: (error as any).errors[0].message };
+    return { error: "An error occurred while updating the partner." };
+  }
+}
+
+export async function deletePartner(id: string) {
+  try {
+    await requireAuth();
+    await dbConnect();
+    await Partner.findByIdAndDelete(id);
+    revalidatePath("/admin/partners");
+    revalidatePath("/partners");
+    revalidatePath("/");
+    return { success: "Partner deleted." };
+  } catch (error) {
+    return { error: "Error deleting partner." };
   }
 }

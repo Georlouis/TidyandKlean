@@ -115,6 +115,24 @@ export default function SettingsForm({ initialData }: { initialData: any }) {
           </div>
         </div>
       </div>
+
+      {/* Media Settings Section */}
+      <div className="bg-slate-900/50 p-6 md:p-8 rounded-3xl border border-slate-800">
+        <h2 className="text-xl font-bold text-white mb-6 font-serif">Media Settings</h2>
+        <div className="grid grid-cols-1 gap-6">
+          <div>
+            <label className="block text-sm font-bold text-slate-300 mb-2">Homepage Promo Video URL (MP4)</label>
+            <input 
+              type="url" 
+              name="promoVideoUrl" 
+              defaultValue={initialData?.promoVideoUrl || "https://coverr.co/s3/mp4/House-Cleaning.mp4"}
+              className="block w-full border border-slate-700 rounded-xl focus:ring-[#0095f6] focus:border-[#0095f6] py-3 px-4 bg-slate-900 text-white placeholder-slate-500 transition-colors" 
+              placeholder="https://example.com/video.mp4"
+            />
+            <p className="text-xs text-slate-500 mt-2">Provides the background video for the main showcase section.</p>
+          </div>
+        </div>
+      </div>
       
       {state?.error && <p className="text-rose-500 text-sm font-bold bg-rose-500/10 p-3 rounded-lg border border-rose-500/20">{state.error}</p>}
       

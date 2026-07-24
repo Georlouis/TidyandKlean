@@ -9,6 +9,7 @@ export interface IHomeStat extends Document {
   twitterUrl?: string;
   instagramUrl?: string;
   linkedinUrl?: string;
+  promoVideoUrl?: string;
 }
 
 const HomeStatSchema: Schema = new Schema({
@@ -20,7 +21,8 @@ const HomeStatSchema: Schema = new Schema({
   twitterUrl: { type: String, default: 'https://twitter.com' },
   instagramUrl: { type: String, default: 'https://instagram.com' },
   linkedinUrl: { type: String, default: 'https://linkedin.com' },
-});
+  promoVideoUrl: { type: String, default: 'https://coverr.co/s3/mp4/House-Cleaning.mp4' }
+}, { timestamps: true });
 
 // Check if the model exists before compiling it
 const HomeStat: Model<IHomeStat> = mongoose.models.HomeStat || mongoose.model<IHomeStat>('HomeStat', HomeStatSchema);

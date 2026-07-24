@@ -12,7 +12,8 @@ import {
   X,
   Users,
   LineChart,
-  Settings
+  Settings,
+  Handshake
 } from "lucide-react";
 import { useState } from "react";
 import { handleLogout } from "@/app/admin/actions";
@@ -21,6 +22,7 @@ const navItems = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "Analytics", href: "/admin/analytics", icon: LineChart },
   { name: "Services", href: "/admin/services", icon: Briefcase },
+  { name: "Partners", href: "/admin/partners", icon: Handshake },
   { name: "Testimonials", href: "/admin/testimonials", icon: MessageSquareQuote },
   { name: "News", href: "/admin/news", icon: Newspaper },
   { name: "Users", href: "/admin/users", icon: Users },

@@ -5,6 +5,7 @@ import AnimatedCounter from "@/components/AnimatedCounter";
 import dbConnect from "@/lib/mongodb";
 import Testimonial from "@/models/Testimonial";
 import HomeStat from "@/models/HomeStat";
+import Partner from "@/models/Partner";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 
 export const dynamic = 'force-dynamic';
@@ -13,6 +14,7 @@ export default async function Home() {
   await dbConnect();
   const testimonialsData = await Testimonial.find({}).lean();
   const statsData = await HomeStat.findOne({}).lean();
+  const partnersData = await Partner.find({}).lean();
   
   const testimonials = testimonialsData.map(doc => ({
     authorName: doc.authorName,
@@ -27,13 +29,21 @@ export default async function Home() {
     cleaningsDone: statsData.cleaningsDone,
     happyClientsPercentage: statsData.happyClientsPercentage,
     proCleaners: statsData.proCleaners,
-    averageRating: statsData.averageRating
+    averageRating: statsData.averageRating,
+    promoVideoUrl: statsData.promoVideoUrl || "https://coverr.co/s3/mp4/House-Cleaning.mp4"
   } : {
     cleaningsDone: 5000,
     happyClientsPercentage: 99,
     proCleaners: 50,
-    averageRating: 4.9
+    averageRating: 4.9,
+    promoVideoUrl: "https://coverr.co/s3/mp4/House-Cleaning.mp4"
   };
+
+  const partners = partnersData.map(doc => ({
+    name: doc.name,
+    role: doc.role,
+    image: doc.imageUrl
+  }));
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -182,7 +192,7 @@ export default async function Home() {
                 playsInline
                 poster="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80"
               >
-                <source src="https://cdn.coverr.co/videos/coverr-cleaning-the-house-2553/1080p.mp4" type="video/mp4" />
+                <source src={stats.promoVideoUrl} type="video/mp4" />
                 <track kind="captions" srcLang="en" label="English" default />
                 Your browser does not support the video tag.
               </video>
@@ -447,8 +457,9 @@ export default async function Home() {
           {/* We duplicate the set for seamless marquee scrolling */}
           {[1, 2, 3, 4].map((set) => (
             <div key={set} className="flex space-x-24 items-center min-w-max">
-              <div className="text-3xl font-extrabold text-gray-400 font-sans">Beach Blue <span className="font-light">Properties</span></div>
-              <div className="text-3xl font-bold text-gray-400 font-serif italic">Destin<span className="text-gray-300">Memories</span></div>
+              {partners.map(p => (
+                <div key={p.name} className="text-3xl font-extrabold text-gray-400 font-sans">{p.name}</div>
+              ))}
             </div>
           ))}
         </div>

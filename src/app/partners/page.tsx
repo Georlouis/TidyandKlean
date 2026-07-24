@@ -6,22 +6,25 @@ export const metadata = {
   description: "See the companies and clients we work with in Florida.",
 };
 
-const partners = [
-  { 
-    name: "Destin Memories LLC", 
-    role: "Property Management Partner",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
-    icon: <Building2 className="w-8 h-8" />
-  },
-  { 
-    name: "Beach Blue Properties, LLC", 
-    role: "Strategic Partner",
-    image: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=800&q=80",
-    icon: <Key className="w-8 h-8" />
-  },
-];
+import dbConnect from "@/lib/mongodb";
+import Partner from "@/models/Partner";
+import { ShieldCheck } from "lucide-react";
 
-export default function PartnersPage() {
+export const dynamic = 'force-dynamic';
+
+export default async function PartnersPage() {
+  await dbConnect();
+  const partnersData = await Partner.find({}).lean();
+  
+  const Icons: any = { Building2, Home, Landmark, Key, Star, ShieldCheck };
+
+  const partners = partnersData.map(doc => ({
+    name: doc.name,
+    role: doc.role,
+    image: doc.imageUrl,
+    iconName: doc.iconName || 'Building2'
+  }));
+
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Dark Mode Luxury Hero */}
@@ -47,27 +50,30 @@ export default function PartnersPage() {
         
         {/* Luxury Partner Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          {partners.map((partner, index) => (
-            <div key={index} className="group relative h-[350px] rounded-[2rem] overflow-hidden shadow-2xl hover:shadow-[0_30px_60px_rgba(0,0,0,0.15)] transition-all duration-500 hover:-translate-y-2 cursor-default border border-white/50">
-              <Image 
-                src={partner.image}
-                alt={partner.name}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              {/* Glassmorphism gradient overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-black/10"></div>
-              
-              <div className="absolute inset-0 p-10 flex flex-col justify-end">
-                <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center mb-6 transform group-hover:-translate-y-2 transition-transform duration-500 shadow-xl">
-                  {partner.icon}
+          {partners.map((partner, index) => {
+            const IconComponent = Icons[partner.iconName] || Building2;
+            return (
+              <div key={index} className="group relative h-[350px] rounded-[2rem] overflow-hidden shadow-2xl hover:shadow-[0_30px_60px_rgba(0,0,0,0.15)] transition-all duration-500 hover:-translate-y-2 cursor-default border border-white/50">
+                <Image 
+                  src={partner.image}
+                  alt={partner.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                {/* Glassmorphism gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-black/10"></div>
+                
+                <div className="absolute inset-0 p-10 flex flex-col justify-end">
+                  <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white flex items-center justify-center mb-6 transform group-hover:-translate-y-2 transition-transform duration-500 shadow-xl">
+                    <IconComponent className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-3xl font-bold text-white mb-2">{partner.name}</h3>
+                  <p className="text-brand-light font-semibold uppercase tracking-wider text-sm">{partner.role}</p>
                 </div>
-                <h3 className="text-3xl font-bold text-white mb-2">{partner.name}</h3>
-                <p className="text-brand-light font-semibold uppercase tracking-wider text-sm">{partner.role}</p>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Editorial Testimonial Block */}
