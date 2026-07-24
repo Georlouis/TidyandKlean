@@ -9,6 +9,8 @@ export const metadata = {
   description: "Learn about Tidy & Klean, our mission, and how we deliver top-quality cleaning.",
 };
 
+export const dynamic = 'force-dynamic';
+
 export default async function AboutPage() {
   await dbConnect();
   const statsData = await HomeStat.findOne({}).lean();

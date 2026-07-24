@@ -40,6 +40,8 @@ function calculateReadTime(text: string) {
   return Math.ceil(minutes);
 }
 
+export const dynamic = 'force-dynamic';
+
 export default async function SingleNewsPage({ params }: { params: Promise<{ slug: string }> }) {
   await dbConnect();
   const resolvedParams = await params;

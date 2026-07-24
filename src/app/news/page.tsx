@@ -10,6 +10,8 @@ export const metadata = {
 import dbConnect from "@/lib/mongodb";
 import News from "@/models/News";
 
+export const dynamic = 'force-dynamic';
+
 export default async function NewsPage() {
   await dbConnect();
   const newsData = await News.find({}).lean();

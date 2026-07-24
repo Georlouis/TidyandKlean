@@ -7,6 +7,8 @@ import Testimonial from "@/models/Testimonial";
 import HomeStat from "@/models/HomeStat";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   await dbConnect();
   const testimonialsData = await Testimonial.find({}).lean();
