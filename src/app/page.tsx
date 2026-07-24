@@ -193,8 +193,8 @@ export default function Home() {
                 <h3 className="text-3xl font-bold text-white mb-3">Deep Cleaning</h3>
                 <p className="text-gray-300 mb-6 line-clamp-2">Thorough, top-to-bottom cleaning that reaches the hidden dirt and grime in your home.</p>
                 <div className="mt-auto flex justify-between items-center">
-                  <Link href="/services" aria-label="Learn more about our Deep Cleaning services" title="Learn more about Deep Cleaning" className="text-brand-light font-bold uppercase tracking-wider text-sm group-hover:text-white transition-colors">
-                    Learn More
+                  <Link href="/services" className="text-brand-light font-bold uppercase tracking-wider text-sm group-hover:text-white transition-colors">
+                    <span className="sr-only">Learn more about our </span>Deep Cleaning
                   </Link>
                   <div className="w-12 h-12 rounded-full bg-brand-magenta text-white flex items-center justify-center transform group-hover:scale-110 transition-transform">
                     <ArrowRight className="w-5 h-5" />
@@ -207,18 +207,18 @@ export default function Home() {
             <div className="group relative h-[450px] rounded-[2rem] overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer">
               <Image
                 src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80"
-                alt="HSK Departure Clean Bedroom"
+                alt="Vacation Rental Turnover Bedroom"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 className="object-cover group-hover:scale-110 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/90 via-brand-blue/40 to-transparent"></div>
               <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col justify-end h-full relative z-10">
-                <h3 className="text-3xl font-bold text-white mb-3">HSK Departure</h3>
+                <h3 className="text-3xl font-bold text-white mb-3">Vacation Rental Turnover</h3>
                 <p className="text-brand-light mb-6 line-clamp-2">Specialized housekeeping for vacation rentals and Airbnb turnovers. Ready for the next guest.</p>
                 <div className="mt-auto flex justify-between items-center">
-                  <Link href="/services" aria-label="Learn more about our HSK Departure cleaning services" title="Learn more about HSK Departure" className="text-white font-bold uppercase tracking-wider text-sm transition-colors">
-                    Learn More
+                  <Link href="/services" className="text-white font-bold uppercase tracking-wider text-sm transition-colors">
+                    <span className="sr-only">Learn more about </span>Vacation Rental Turnover
                   </Link>
                   <div className="w-12 h-12 rounded-full bg-white text-brand-blue flex items-center justify-center transform group-hover:scale-110 transition-transform">
                     <ArrowRight className="w-5 h-5" />
@@ -241,8 +241,8 @@ export default function Home() {
                 <h3 className="text-3xl font-bold text-white mb-3">Move-In / Out</h3>
                 <p className="text-gray-300 mb-6 line-clamp-2">Make your transition smooth with a perfectly clean new home or leave the old one spotless.</p>
                 <div className="mt-auto flex justify-between items-center">
-                  <Link href="/services" aria-label="Learn more about our Move-In and Move-Out cleaning services" title="Learn more about Move-In/Out Cleaning" className="text-brand-light font-bold uppercase tracking-wider text-sm group-hover:text-white transition-colors">
-                    Learn More
+                  <Link href="/services" className="text-brand-light font-bold uppercase tracking-wider text-sm group-hover:text-white transition-colors">
+                    <span className="sr-only">Learn more about </span>Move-In / Out
                   </Link>
                   <div className="w-12 h-12 rounded-full bg-brand-light text-gray-900 flex items-center justify-center transform group-hover:scale-110 transition-transform">
                     <ArrowRight className="w-5 h-5" />

@@ -10,11 +10,25 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.tidyandklean.com'),
   title: "Tidy & Klean | Professional Cleaning Services in Florida",
-  description: "Top-quality cleaning services in Florida. Deep clean, move-in/move-out, HSK departure clean, and more. Contact us today!",
+  description: "Top-quality cleaning services in Florida. Deep clean, move-in/move-out, vacation rental turnover, and more. Contact us today!",
   keywords: "professional cleaning services Florida, vacation rental cleaning, Airbnb turnover cleaning, move in out cleaners, deep cleaning Florida, Tidy and Klean, housekeeping services, residential commercial cleaners",
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
     title: 'Tidy & Klean | Professional Cleaning Services',
-    description: 'Top-quality cleaning services in Florida. Deep clean, move-in/move-out, and HSK departure clean.',
+    description: 'Top-quality cleaning services in Florida. Deep clean, move-in/move-out, and vacation rental turnover.',
     url: 'https://www.tidyandklean.com',
     siteName: 'Tidy & Klean',
     locale: 'en_US',

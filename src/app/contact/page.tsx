@@ -151,7 +151,7 @@ export default function ContactPage() {
                       <div className="relative">
                         <select id="service" name="service" value={service} onChange={(e) => setService(e.target.value)} className="w-full px-5 py-4 rounded-xl bg-gray-50/50 border border-gray-200 focus:bg-white focus:ring-2 focus:ring-brand-blue focus:border-transparent outline-none transition-all text-gray-700 appearance-none cursor-pointer">
                           <option value="Deep Cleaning (Recommended)">Deep Cleaning (Recommended)</option>
-                          <option value="HSK Departure Clean">HSK Departure Clean</option>
+                          <option value="Vacation Rental Turnover">Vacation Rental Turnover</option>
                           <option value="Move-In / Move-Out">Move-In / Move-Out</option>
                           <option value="Standard Recurring Cleaning">Standard Recurring Cleaning</option>
                           <option value="Commercial Space">Commercial Space</option>

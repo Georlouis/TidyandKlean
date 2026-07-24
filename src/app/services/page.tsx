@@ -14,7 +14,7 @@ const services = [
     image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
   },
   {
-    title: "HSK Departure Clean",
+    title: "Vacation Rental Turnover",
     description: "Designed specifically for Airbnb hosts and vacation rentals. We ensure the property is perfectly prepared for the next guest with hotel-standard housekeeping, laundry turnover, and supply restocking.",
     features: ["Linens and towels washing", "Restocking toiletries", "Damage inspection reporting", "Hotel-style bed making"],
     image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800&q=80"

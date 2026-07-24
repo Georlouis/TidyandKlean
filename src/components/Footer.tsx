@@ -43,7 +43,7 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-6 text-brand-light">Our Services</h3>
             <ul className="space-y-4">
               <li className="text-gray-400">Deep Clean</li>
-              <li className="text-gray-400">HSK Departure Clean</li>
+              <li className="text-gray-400">Vacation Rental Turnover</li>
               <li className="text-gray-400">Move-In / Move-Out</li>
               <li className="text-gray-400">Standard Cleaning</li>
               <li className="text-gray-400">Office Cleaning</li>
