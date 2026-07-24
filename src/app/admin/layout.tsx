@@ -5,6 +5,8 @@ export const metadata = {
   title: "Admin Panel | Tidy & Klean",
 };
 
+export const dynamic = 'force-dynamic';
+
 export default function AdminLayout({
   children,
 }: {
