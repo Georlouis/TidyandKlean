@@ -56,7 +56,7 @@ export default async function ServicesPage() {
                 </p>
                 <h4 className="font-semibold text-brand-blue mb-4 uppercase tracking-wider text-sm">What&apos;s included:</h4>
                 <ul className="space-y-3 mb-10">
-                  {service.features.map((feature, i) => (
+                  {service.features.map((feature: string, i: number) => (
                     <li key={i} className="flex items-center text-gray-700">
                       <CheckCircle2 className="h-5 w-5 text-brand-magenta mr-3 flex-shrink-0" />
                       {feature}
