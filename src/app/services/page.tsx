@@ -6,34 +6,18 @@ export const metadata = {
   description: "Explore our professional cleaning services in Florida.",
 };
 
-const services = [
-  {
-    title: "Deep Cleaning",
-    description: "Our deep cleaning service is a comprehensive top-to-bottom cleaning of your home or office. We reach the hidden dirt and grime that regular cleaning misses. Perfect for spring cleaning or when your space needs a fresh start.",
-    features: ["Baseboards and doors", "Inside appliances (oven, fridge)", "Deep dusting of all surfaces", "Window sills and tracks"],
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    title: "Vacation Rental Turnover",
-    description: "Designed specifically for Airbnb hosts and vacation rentals. We ensure the property is perfectly prepared for the next guest with hotel-standard housekeeping, laundry turnover, and supply restocking.",
-    features: ["Linens and towels washing", "Restocking toiletries", "Damage inspection reporting", "Hotel-style bed making"],
-    image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    title: "Move-In / Move-Out",
-    description: "Make your transition smooth. We ensure your old home is left spotless for the next occupants, or we prepare your new home to be perfectly clean and sanitized before you move in.",
-    features: ["Inside all cabinets and drawers", "Wall spot cleaning", "Deep carpet vacuuming", "Full bathroom sanitization"],
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    title: "Standard / Recurring Cleaning",
-    description: "Keep your home consistently clean with our weekly, bi-weekly, or monthly cleaning services. Enjoy a pristine environment without lifting a finger.",
-    features: ["Dusting and wiping surfaces", "Floors (vacuum and mop)", "Kitchen and bathroom cleaning", "Trash removal"],
-    image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-  }
-];
+import dbConnect from "@/lib/mongodb";
+import Service from "@/models/Service";
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  await dbConnect();
+  const servicesData = await Service.find({}).lean();
+  const services = servicesData.map(doc => ({
+    title: doc.title,
+    description: doc.description,
+    features: doc.features,
+    image: doc.imageUrl
+  }));
   return (
     <div className="bg-gray-50 min-h-screen pb-24">
       {/* Header */}
@@ -51,11 +35,12 @@ export default function ServicesPage() {
         <div className="space-y-16">
           {services.map((service, index) => (
             <div key={index} className={`bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
-              <div className="md:w-1/2 relative h-64 md:h-auto">
+              <div className="relative h-64 md:h-full min-h-[300px] w-full md:w-1/2">
                 <Image
                   src={service.image}
                   alt={service.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
                 />
               </div>

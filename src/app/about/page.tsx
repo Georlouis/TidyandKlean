@@ -1,13 +1,28 @@
 import Image from "next/image";
 import AnimatedCounter from "@/components/AnimatedCounter";
 import { Sparkles, Clock, CheckCircle2, ShieldCheck, HeartHandshake } from "lucide-react";
+import dbConnect from "@/lib/mongodb";
+import HomeStat from "@/models/HomeStat";
 
 export const metadata = {
   title: "About Us | Tidy & Klean",
   description: "Learn about Tidy & Klean, our mission, and how we deliver top-quality cleaning.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  await dbConnect();
+  const statsData = await HomeStat.findOne({}).lean();
+  
+  const stats = statsData ? {
+    cleaningsDone: statsData.cleaningsDone,
+    happyClientsPercentage: statsData.happyClientsPercentage,
+    proCleaners: statsData.proCleaners,
+  } : {
+    cleaningsDone: 5000,
+    happyClientsPercentage: 100,
+    proCleaners: 50,
+  };
+
   return (
     <div className="bg-white min-h-screen">
       
@@ -47,19 +62,19 @@ export default function AboutPage() {
           </div>
           <div className="text-center px-4">
             <div className="text-4xl md:text-5xl font-extrabold text-brand-blue mb-2">
-              <AnimatedCounter end={5000} suffix="+" />
+              <AnimatedCounter end={stats.cleaningsDone} suffix="+" />
             </div>
             <p className="text-gray-500 font-medium text-sm uppercase tracking-wider">Spaces Cleaned</p>
           </div>
           <div className="text-center px-4">
             <div className="text-4xl md:text-5xl font-extrabold text-brand-blue mb-2">
-              <AnimatedCounter end={100} suffix="%" />
+              <AnimatedCounter end={stats.happyClientsPercentage} suffix="%" />
             </div>
             <p className="text-gray-500 font-medium text-sm uppercase tracking-wider">Satisfaction</p>
           </div>
           <div className="text-center px-4">
             <div className="text-4xl md:text-5xl font-extrabold text-brand-blue mb-2">
-              <AnimatedCounter end={50} suffix="+" />
+              <AnimatedCounter end={stats.proCleaners} suffix="+" />
             </div>
             <p className="text-gray-500 font-medium text-sm uppercase tracking-wider">Pro Cleaners</p>
           </div>

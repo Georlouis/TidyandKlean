@@ -3,6 +3,7 @@
 import { Mail, Phone, MapPin, Send, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
+import CTATracker from '@/components/CTATracker';
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);

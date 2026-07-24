@@ -2,8 +2,36 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, UserCheck, MapPin, ThumbsUp, Star } from "lucide-react";
 import AnimatedCounter from "@/components/AnimatedCounter";
+import dbConnect from "@/lib/mongodb";
+import Testimonial from "@/models/Testimonial";
+import HomeStat from "@/models/HomeStat";
+import TestimonialCarousel from "@/components/TestimonialCarousel";
 
-export default function Home() {
+export default async function Home() {
+  await dbConnect();
+  const testimonialsData = await Testimonial.find({}).lean();
+  const statsData = await HomeStat.findOne({}).lean();
+  
+  const testimonials = testimonialsData.map(doc => ({
+    authorName: doc.authorName,
+    authorLocation: doc.authorLocation,
+    initials: doc.initials,
+    content: doc.content,
+    rating: doc.rating,
+    color: doc.color || 'yellow'
+  }));
+
+  const stats = statsData ? {
+    cleaningsDone: statsData.cleaningsDone,
+    happyClientsPercentage: statsData.happyClientsPercentage,
+    proCleaners: statsData.proCleaners,
+    averageRating: statsData.averageRating
+  } : {
+    cleaningsDone: 5000,
+    happyClientsPercentage: 99,
+    proCleaners: 50,
+    averageRating: 4.9
+  };
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -50,25 +78,25 @@ export default function Home() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 px-8 text-center divide-x divide-gray-100">
           <div className="flex flex-col items-center">
             <span className="text-4xl font-extrabold text-brand-blue mb-2">
-              <AnimatedCounter prefix="+" end={5000} />
+              <AnimatedCounter prefix="+" end={stats.cleaningsDone} />
             </span>
             <span className="text-sm font-semibold text-gray-600 uppercase tracking-wider">Cleanings Done</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-4xl font-extrabold text-brand-magenta mb-2">
-              <AnimatedCounter end={99} suffix="%" />
+              <AnimatedCounter end={stats.happyClientsPercentage} suffix="%" />
             </span>
             <span className="text-sm font-semibold text-gray-600 uppercase tracking-wider">Happy Clients</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-4xl font-extrabold text-brand-blue mb-2">
-              <AnimatedCounter prefix="+" end={50} />
+              <AnimatedCounter prefix="+" end={stats.proCleaners} />
             </span>
             <span className="text-sm font-semibold text-gray-600 uppercase tracking-wider">Pro Cleaners</span>
           </div>
           <div className="flex flex-col items-center">
             <span className="text-4xl font-extrabold text-brand-magenta mb-2">
-              <AnimatedCounter end={4.9} decimals={1} suffix="/5" />
+              <AnimatedCounter end={stats.averageRating} decimals={1} suffix="/5" />
             </span>
             <span className="text-sm font-semibold text-gray-600 uppercase tracking-wider">Average Rating</span>
           </div>
@@ -397,92 +425,14 @@ export default function Home() {
       {/* Testimonials - Post-it Style */}
       <section className="py-32 bg-gray-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-20">
+          <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-extrabold text-brand-blue mb-4 tracking-tight">Loved by Homeowners</h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-xl">
               Real notes from real clients. Our reputation is built on spotless results.
             </p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 lg:gap-12">
-            {/* Post-it 1 */}
-            <div className="bg-[#fef08a] text-gray-800 p-8 md:p-10 shadow-[5px_10px_20px_rgba(0,0,0,0.1)] hover:shadow-[10px_20px_30px_rgba(0,0,0,0.15)] transition-all flex flex-col h-full transform -rotate-2 hover:rotate-0 hover:-translate-y-2 relative border border-[#fde047]">
-              {/* Pin design detail */}
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-red-400 shadow-md border border-red-500 flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-white opacity-50"></div>
-              </div>
-              
-              <div className="flex items-center mb-6 mt-2">
-                <div className="flex text-amber-500 mr-4">
-                  <Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" />
-                </div>
-              </div>
-              <p className="text-xl italic text-gray-800 mb-8 flex-grow font-serif leading-relaxed">
-                &quot;Tidy & Klean is an absolute lifesaver. Their team was professional, on time, and left our Florida vacation home looking brand new. Highly recommended!&quot;
-              </p>
-              <div className="flex items-center border-t border-yellow-400 pt-4">
-                <div className="w-12 h-12 bg-gray-900 text-white rounded-full mr-4 flex items-center justify-center font-bold">
-                  SM
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg">Sarah Mitchell</h3>
-                  <p className="text-sm font-medium text-gray-700">Destin, FL</p>
-                </div>
-              </div>
-              {/* Folded corner effect */}
-              <div className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-gray-200/50 to-transparent"></div>
-            </div>
-
-            {/* Post-it 2 */}
-            <div className="bg-[#bfdbfe] text-gray-800 p-8 md:p-10 shadow-[5px_10px_20px_rgba(0,0,0,0.1)] hover:shadow-[10px_20px_30px_rgba(0,0,0,0.15)] transition-all flex flex-col h-full transform rotate-3 hover:rotate-0 hover:-translate-y-2 relative border border-[#93c5fd] mt-4 md:mt-8">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-blue-500 shadow-md border border-blue-600 flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-white opacity-50"></div>
-              </div>
-              <div className="flex items-center mb-6 mt-2">
-                <div className="flex text-amber-500 mr-4">
-                  <Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" />
-                </div>
-              </div>
-              <p className="text-xl italic text-gray-800 mb-8 flex-grow font-serif leading-relaxed">
-                &quot;I&apos;ve hired many cleaning services before, but the attention to detail from Tidy & Klean is unmatched. The deep cleaning was completely transformative.&quot;
-              </p>
-              <div className="flex items-center border-t border-blue-300 pt-4">
-                <div className="w-12 h-12 bg-brand-blue text-white rounded-full mr-4 flex items-center justify-center font-bold">
-                  JP
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg">James Peterson</h3>
-                  <p className="text-sm font-medium text-gray-700">Destin, FL</p>
-                </div>
-              </div>
-              <div className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-gray-200/50 to-transparent"></div>
-            </div>
-
-            {/* Post-it 3 */}
-            <div className="bg-[#fbcfe8] text-gray-800 p-8 md:p-10 shadow-[5px_10px_20px_rgba(0,0,0,0.1)] hover:shadow-[10px_20px_30px_rgba(0,0,0,0.15)] transition-all flex flex-col h-full transform -rotate-1 hover:rotate-0 hover:-translate-y-2 relative border border-[#f9a8d4] mt-2 md:mt-0">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-pink-500 shadow-md border border-pink-600 flex items-center justify-center">
-                <div className="w-2 h-2 rounded-full bg-white opacity-50"></div>
-              </div>
-              <div className="flex items-center mb-6 mt-2">
-                <div className="flex text-amber-500 mr-4">
-                  <Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" /><Star className="fill-current h-5 w-5" />
-                </div>
-              </div>
-              <p className="text-xl italic text-gray-800 mb-8 flex-grow font-serif leading-relaxed">
-                &quot;Incredible service! Booking online was super easy, and the crew that arrived was friendly and very thorough. I love the satisfaction guarantee.&quot;
-              </p>
-              <div className="flex items-center border-t border-pink-300 pt-4">
-                <div className="w-12 h-12 bg-brand-magenta text-white rounded-full mr-4 flex items-center justify-center font-bold">
-                  AR
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg">Amanda Rodriguez</h3>
-                  <p className="text-sm font-medium text-gray-700">Miramar Beach, FL</p>
-                </div>
-              </div>
-              <div className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-to-tl from-gray-200/50 to-transparent"></div>
-            </div>
-          </div>
+          <TestimonialCarousel testimonials={testimonials} />
         </div>
       </section>
 

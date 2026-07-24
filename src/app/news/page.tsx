@@ -7,31 +7,21 @@ export const metadata = {
   description: "Cleaning tips, company updates, and news from Tidy & Klean.",
 };
 
-const posts = [
-  {
-    title: "5 Spring Cleaning Tips for Florida Homes",
-    excerpt: "Get your home ready for the warm weather with these essential spring cleaning tips tailored for the Florida climate.",
-    date: "March 15, 2026",
-    category: "Tips & Tricks",
-    image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    title: "How to Prepare Your Airbnb for the Busy Season",
-    excerpt: "Maximize your five-star reviews by ensuring your property is perfectly clean and stocked before the rush.",
-    date: "February 28, 2026",
-    category: "Property Management",
-    image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    title: "Tidy & Klean Launches New Packages for Vacation Rentals",
-    excerpt: "We are thrilled to announce new specialized cleaning packages for Airbnb and vacation rentals in the Destin and Fort Walton Beach area.",
-    date: "January 10, 2026",
-    category: "Company News",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"
-  }
-];
+import dbConnect from "@/lib/mongodb";
+import News from "@/models/News";
 
-export default function NewsPage() {
+export default async function NewsPage() {
+  await dbConnect();
+  const newsData = await News.find({}).lean();
+  
+  const posts = newsData.map(doc => ({
+    title: doc.title,
+    excerpt: doc.excerpt,
+    date: doc.date,
+    category: doc.category,
+    image: doc.imageUrl,
+    slug: doc.slug
+  }));
   return (
     <div className="bg-gray-50 min-h-screen pb-24">
       <div className="bg-brand-blue text-white py-24 px-4">
@@ -65,7 +55,7 @@ export default function NewsPage() {
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4 leading-tight">{post.title}</h2>
                 <p className="text-gray-600 mb-6 flex-grow">{post.excerpt}</p>
-                <Link href="#" className="text-brand-blue font-semibold flex items-center hover:text-brand-light transition-colors mt-auto">
+                <Link href={`/news/${post.slug}`} className="text-brand-blue font-semibold flex items-center hover:text-brand-light transition-colors mt-auto">
                   Read article <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </div>
