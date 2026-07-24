@@ -13,8 +13,14 @@ import { ShieldCheck } from "lucide-react";
 export const dynamic = 'force-dynamic';
 
 export default async function PartnersPage() {
-  await dbConnect();
-  const partnersData = await Partner.find({}).lean();
+  let partnersData: any[] = [];
+  
+  try {
+    await dbConnect();
+    partnersData = await Partner.find({}).lean();
+  } catch (error) {
+    console.error("Failed to fetch partners from DB:", error);
+  }
   
   const Icons: any = { Building2, Home, Landmark, Key, Star, ShieldCheck };
 

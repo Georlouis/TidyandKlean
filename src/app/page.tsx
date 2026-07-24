@@ -10,11 +10,18 @@ import TestimonialCarousel from "@/components/TestimonialCarousel";
 
 export const dynamic = 'force-dynamic';
 
-export default async function Home() {
-  await dbConnect();
-  const testimonialsData = await Testimonial.find({}).lean();
-  const statsData = await HomeStat.findOne({}).lean();
-  const partnersData = await Partner.find({}).lean();
+  let testimonialsData: any[] = [];
+  let statsData: any = null;
+  let partnersData: any[] = [];
+
+  try {
+    await dbConnect();
+    testimonialsData = await Testimonial.find({}).lean();
+    statsData = await HomeStat.findOne({}).lean();
+    partnersData = await Partner.find({}).lean();
+  } catch (error) {
+    console.error("Failed to fetch data from DB:", error);
+  }
   
   const testimonials = testimonialsData.map(doc => ({
     authorName: doc.authorName,
