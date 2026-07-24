@@ -13,10 +13,15 @@ import News from "@/models/News";
 export const dynamic = 'force-dynamic';
 
 export default async function NewsPage() {
-  await dbConnect();
-  const newsData = await News.find({}).lean();
+  let allNews: any[] = [];
+  try {
+    await dbConnect();
+    allNews = await News.find({ status: 'published' }).sort({ date: -1 }).lean();
+  } catch (error) {
+    console.error("Failed to fetch news:", error);
+  }
   
-  const posts = newsData.map(doc => ({
+  const posts = allNews.map(doc => ({
     title: doc.title,
     excerpt: doc.excerpt,
     date: doc.date,

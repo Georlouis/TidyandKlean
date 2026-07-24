@@ -11,9 +11,13 @@ import Service from "@/models/Service";
 
 export const dynamic = 'force-dynamic';
 
-export default async function ServicesPage() {
-  await dbConnect();
-  const servicesData = await Service.find({}).lean();
+  let servicesData: any[] = [];
+  try {
+    await dbConnect();
+    servicesData = await Service.find({}).lean();
+  } catch (error) {
+    console.error("Failed to fetch services:", error);
+  }
   const services = servicesData.map(doc => ({
     title: doc.title,
     description: doc.description,

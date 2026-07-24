@@ -11,9 +11,13 @@ export const metadata = {
 
 export const dynamic = 'force-dynamic';
 
-export default async function AboutPage() {
-  await dbConnect();
-  const statsData = await HomeStat.findOne({}).lean();
+  let statsData: any = null;
+  try {
+    await dbConnect();
+    statsData = await HomeStat.findOne({}).lean();
+  } catch (error) {
+    console.error("Failed to fetch about stats:", error);
+  }
   
   const stats = statsData ? {
     cleaningsDone: statsData.cleaningsDone,
