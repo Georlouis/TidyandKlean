@@ -9,8 +9,7 @@ export const metadata = {
 import dbConnect from "@/lib/mongodb";
 import Service from "@/models/Service";
 
-export const dynamic = 'force-dynamic';
-
+export default async function ServicesPage() {
   let servicesData: any[] = [];
   try {
     await dbConnect();
