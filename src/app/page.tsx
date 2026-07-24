@@ -8,8 +8,7 @@ import HomeStat from "@/models/HomeStat";
 import Partner from "@/models/Partner";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 
-export const dynamic = 'force-dynamic';
-
+export default async function Home() {
   let testimonialsData: any[] = [];
   let statsData: any = null;
   let partnersData: any[] = [];
