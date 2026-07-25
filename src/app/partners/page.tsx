@@ -61,8 +61,8 @@ export default async function PartnersPage() {
             return (
               <div key={index} className="group relative h-[350px] rounded-[2rem] overflow-hidden shadow-2xl hover:shadow-[0_30px_60px_rgba(0,0,0,0.15)] transition-all duration-500 hover:-translate-y-2 cursor-default border border-white/50">
                 <Image 
-                  src={partner.image}
-                  alt={partner.name}
+                  src={partner.image || "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1920&q=80"}
+                  alt={partner.name || "Partner"}
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
