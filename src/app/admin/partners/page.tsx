@@ -46,8 +46,8 @@ export default async function AdminPartnersPage() {
                   <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10 relative rounded-md overflow-hidden bg-gray-100">
                       <Image 
-                        src={partner.imageUrl} 
-                        alt={partner.name}
+                        src={partner.imageUrl || "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1920&q=80"} 
+                        alt={partner.name || "Partner"}
                         fill
                         className="object-cover"
                       />
