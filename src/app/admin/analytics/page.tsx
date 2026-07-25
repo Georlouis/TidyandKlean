@@ -30,6 +30,8 @@ export default async function AnalyticsPage() {
   // Aggregate Data
   const dailyData: Record<string, number> = {};
   const countryData: Record<string, number> = {};
+  const regionData: Record<string, number> = {};
+  const cityData: Record<string, number> = {};
   const deviceData = { mobile: 0, desktop: 0, tablet: 0 };
   const osData: Record<string, number> = {};
   const referrerData: Record<string, number> = {};
@@ -51,6 +53,8 @@ export default async function AnalyticsPage() {
     if (hourData[hour] !== undefined) hourData[hour]++;
     
     countryData[v.country] = (countryData[v.country] || 0) + 1;
+    regionData[v.region || 'Unknown'] = (regionData[v.region || 'Unknown'] || 0) + 1;
+    cityData[v.city || 'Unknown'] = (cityData[v.city || 'Unknown'] || 0) + 1;
     osData[v.os || 'Unknown'] = (osData[v.os || 'Unknown'] || 0) + 1;
     
     let ref = 'Direct';
@@ -81,6 +85,15 @@ export default async function AnalyticsPage() {
     .slice(0, 5)
     .map(([name, value]) => ({ name, value }));
     
+  const topRegions = Object.entries(regionData)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([name, value]) => ({ name, value }));
+
+  const topCities = Object.entries(cityData)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(([name, value]) => ({ name, value }));
   const topPages = Object.entries(pageData)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
@@ -128,6 +141,8 @@ export default async function AnalyticsPage() {
       <AnalyticsCharts 
         chartData={chartData} 
         topCountries={topCountries} 
+        topRegions={topRegions}
+        topCities={topCities}
         deviceData={deviceData} 
         hourChartData={hourChartData}
         topPages={topPages}
