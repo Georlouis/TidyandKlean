@@ -45,6 +45,11 @@ export default async function AnalyticsPage() {
     hourData[i.toString().padStart(2, '0') + ":00"] = 0;
   }
 
+  const safeDecode = (val: string | undefined | null) => {
+    if (!val || val === 'Unknown') return 'Unknown';
+    try { return decodeURIComponent(val); } catch (e) { return val; }
+  };
+
   visits.forEach((v: any) => {
     const day = format(new Date(v.createdAt), 'MMM dd');
     const hour = format(new Date(v.createdAt), 'HH:00');
@@ -52,10 +57,15 @@ export default async function AnalyticsPage() {
     if (dailyData[day] !== undefined) dailyData[day]++;
     if (hourData[hour] !== undefined) hourData[hour]++;
     
-    countryData[v.country] = (countryData[v.country] || 0) + 1;
-    regionData[v.region || 'Unknown'] = (regionData[v.region || 'Unknown'] || 0) + 1;
-    cityData[v.city || 'Unknown'] = (cityData[v.city || 'Unknown'] || 0) + 1;
-    osData[v.os || 'Unknown'] = (osData[v.os || 'Unknown'] || 0) + 1;
+    const country = safeDecode(v.country);
+    const region = safeDecode(v.region);
+    const city = safeDecode(v.city);
+    const os = safeDecode(v.os);
+
+    countryData[country] = (countryData[country] || 0) + 1;
+    regionData[region] = (regionData[region] || 0) + 1;
+    cityData[city] = (cityData[city] || 0) + 1;
+    osData[os] = (osData[os] || 0) + 1;
     
     let ref = 'Direct';
     try {

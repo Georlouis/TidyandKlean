@@ -17,10 +17,14 @@ export async function proxy(request: NextRequest) {
 
   // Analytics Tracker (Only track public pages)
   if (!isAdminRoute && !isLoginRoute && !isApiRoute && !isStatic) {
+    const safeDecode = (val: string | null) => {
+      if (!val) return 'Unknown';
+      try { return decodeURIComponent(val); } catch (e) { return val; }
+    };
     const ip = request.headers.get('x-forwarded-for') || 'Unknown';
-    const country = request.headers.get('x-vercel-ip-country') || 'Unknown';
-    const region = request.headers.get('x-vercel-ip-country-region') || 'Unknown';
-    const city = request.headers.get('x-vercel-ip-city') || 'Unknown';
+    const country = safeDecode(request.headers.get('x-vercel-ip-country'));
+    const region = safeDecode(request.headers.get('x-vercel-ip-country-region'));
+    const city = safeDecode(request.headers.get('x-vercel-ip-city'));
     const userAgent = request.headers.get('user-agent') || 'Unknown';
     const referrer = request.headers.get('referer') || 'Direct';
     
