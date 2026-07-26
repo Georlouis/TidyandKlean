@@ -49,12 +49,15 @@ export default async function AnalyticsPage() {
   const exitPages = new Map<string, number>();
   const referrers = new Map<string, { sessions: number, users: Set<string> }>();
   const countries = new Map<string, { sessions: number, users: Set<string>, pageviews: number, bounces: number, time: number, nonBounces: number }>();
+  const regions = new Map<string, number>();
   const devices = { mobile: 0, desktop: 0, tablet: 0 };
   
   // Initialize daily data
   for (let i = 29; i >= 0; i--) {
     dailyData.set(format(subDays(new Date(), i), 'MMM dd'), { pageviews: 0, users: new Set(), sessions: 0, time: 0, nonBounces: 0, bounces: 0 });
   }
+
+  const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
   // Iterate over sessions to calculate session-level metrics
   allSessions.forEach(sessionVisits => {
@@ -73,7 +76,13 @@ export default async function AnalyticsPage() {
     const ip = firstVisit.ip;
     const landingPath = firstVisit.path || '/';
     const exitPath = lastVisit.path || '/';
-    const country = safeDecode(firstVisit.country);
+    
+    let country = safeDecode(firstVisit.country);
+    // Vercel sends ISO-2 codes (e.g. US, MX)
+    if (country && country.length === 2 && country !== 'Unknown') {
+      try { country = regionNames.of(country) || country; } catch (e) {}
+    }
+    const region = safeDecode(firstVisit.region);
     
     let ref = 'Direct';
     try {
@@ -115,6 +124,12 @@ export default async function AnalyticsPage() {
     c.pageviews += sessionVisits.length;
     if (isBounce) c.bounces++;
     else { c.nonBounces++; c.time += timeOnSite; }
+
+    // Regions
+    if (region && region !== 'Unknown') {
+      if (!regions.has(region)) regions.set(region, 0);
+      regions.set(region, regions.get(region)! + 1);
+    }
 
     // Devices
     if (firstVisit.device === 'mobile') devices.mobile++;
@@ -167,6 +182,11 @@ export default async function AnalyticsPage() {
       pageviews: data.pageviews,
     }))
     .sort((a, b) => b.sessions - a.sessions);
+
+  const topRegions = Array.from(regions.entries())
+    .map(([name, sessions]) => ({ name, sessions }))
+    .sort((a, b) => b.sessions - a.sessions)
+    .slice(0, 10);
 
   const avgBounceRate = totalSessions > 0 ? ((totalBounceCount / totalSessions) * 100).toFixed(2) : "0.00";
   const avgTimeOnSite = formatTime(nonBounceCount > 0 ? totalTimeOnSiteNonBounces / nonBounceCount : 0);

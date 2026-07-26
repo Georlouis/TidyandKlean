@@ -15,7 +15,7 @@ const PIE_COLORS = { desktop: '#0095f6', mobile: '#ec4899', tablet: '#f59e0b' };
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
 export default function AnalyticsCharts({ 
-  chartData, topCountries, landingPages, exitPages, deviceData, topReferrers, kpis
+  chartData, topCountries, topRegions, landingPages, exitPages, deviceData, topReferrers, kpis
 }: any) {
   
   const formattedDeviceData = [
@@ -212,6 +212,11 @@ export default function AnalyticsCharts({
                  <Tooltip content={<CustomTooltip />} />
                </PieChart>
              </ResponsiveContainer>
+             {/* Center Label */}
+             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+               <span className="text-[10px] text-slate-400">Total</span>
+               <span className="text-base font-bold text-white">{kpis.sessions}</span>
+             </div>
            </div>
         </div>
 
@@ -223,7 +228,7 @@ export default function AnalyticsCharts({
         {/* Map */}
         <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 shadow-xl flex flex-col">
           <h2 className="text-lg font-serif font-bold text-white uppercase tracking-wider mb-6">Countries by Sessions</h2>
-          <div className="h-[300px] w-full border border-slate-800/50 rounded-xl overflow-hidden bg-[#0a0f1c] flex-grow">
+          <div className="h-[300px] w-full border border-slate-800/50 rounded-xl overflow-hidden bg-[#0a0f1c] flex-grow relative mb-6">
             <ComposableMap projectionConfig={{ scale: 120 }}>
               <Geographies geography={geoUrl}>
                 {({ geographies }) =>
@@ -249,6 +254,21 @@ export default function AnalyticsCharts({
               </Geographies>
             </ComposableMap>
           </div>
+          
+          {/* Top Regions List */}
+          {topRegions && topRegions.length > 0 && (
+            <div>
+              <h3 className="text-sm font-serif font-bold text-slate-400 uppercase tracking-wider mb-4">Top Regions (States)</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {topRegions.slice(0, 8).map((region: any, idx: number) => (
+                  <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-800/50 pb-2">
+                    <span className="text-slate-300 truncate pr-2">{region.name}</span>
+                    <span className="text-white font-medium">{region.sessions}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Landing Performance Table */}
