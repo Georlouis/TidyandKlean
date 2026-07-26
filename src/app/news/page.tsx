@@ -16,7 +16,8 @@ export default async function NewsPage() {
   let allNews: any[] = [];
   try {
     await dbConnect();
-    allNews = await News.find().sort({ date: -1 }).lean();
+    const rawNews = await News.find({}).lean();
+    allNews = rawNews.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
   } catch (error) {
     console.error("Failed to fetch news:", error);
   }
