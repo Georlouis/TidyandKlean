@@ -1,6 +1,6 @@
 import dbConnect from "@/lib/mongodb";
 import SiteVisit from "@/models/SiteVisit";
-import { format, subDays } from "date-fns";
+import { format, subDays, startOfDay } from "date-fns";
 import AnalyticsCharts from "./AnalyticsCharts";
 
 export const metadata = {
@@ -10,154 +10,188 @@ export const metadata = {
 export default async function AnalyticsPage() {
   await dbConnect();
   
-  const thirtyDaysAgo = subDays(new Date(), 30);
+  const thirtyDaysAgo = subDays(startOfDay(new Date()), 30);
   
   // Exclude bots for clean analytics
   const visits = await SiteVisit.find({ 
     createdAt: { $gte: thirtyDaysAgo },
     isBot: { $ne: true } 
-  }).lean();
-
-  // Basic counters
-  const totalVisits = visits.length;
-  const uniqueIPs = new Set(visits.map(v => v.ip)).size;
-  const mobileVisits = visits.filter(v => v.device === 'mobile').length;
-  const mobilePercent = totalVisits > 0 ? Math.round((mobileVisits / totalVisits) * 100) : 0;
-  
-  // Count Conversions
-  const conversions = visits.filter(v => v.eventName).length;
-
-  // Aggregate Data
-  const dailyData: Record<string, number> = {};
-  const countryData: Record<string, number> = {};
-  const regionData: Record<string, number> = {};
-  const cityData: Record<string, number> = {};
-  const deviceData = { mobile: 0, desktop: 0, tablet: 0 };
-  const osData: Record<string, number> = {};
-  const referrerData: Record<string, number> = {};
-  const pageData: Record<string, number> = {};
-  const hourData: Record<string, number> = {}; // 0 to 23
-
-  for (let i = 29; i >= 0; i--) {
-    dailyData[format(subDays(new Date(), i), 'MMM dd')] = 0;
-  }
-  for(let i = 0; i < 24; i++) {
-    hourData[i.toString().padStart(2, '0') + ":00"] = 0;
-  }
+  }).sort({ createdAt: 1 }).lean(); // Ensure sorted by time for session logic
 
   const safeDecode = (val: string | undefined | null) => {
     if (!val || val === 'Unknown') return 'Unknown';
     try { return decodeURIComponent(val); } catch (e) { return val; }
   };
 
+  // 1. Group into Sessions (by IP + Day)
+  const sessionsMap = new Map<string, any[]>();
   visits.forEach((v: any) => {
-    const day = format(new Date(v.createdAt), 'MMM dd');
-    const hour = format(new Date(v.createdAt), 'HH:00');
-    
-    if (dailyData[day] !== undefined) dailyData[day]++;
-    if (hourData[hour] !== undefined) hourData[hour]++;
-    
-    const country = safeDecode(v.country);
-    const region = safeDecode(v.region);
-    const city = safeDecode(v.city);
-    const os = safeDecode(v.os);
+    const day = format(new Date(v.createdAt), 'yyyy-MM-dd');
+    const key = `${v.ip}-${day}`;
+    if (!sessionsMap.has(key)) sessionsMap.set(key, []);
+    sessionsMap.get(key)!.push(v);
+  });
 
-    countryData[country] = (countryData[country] || 0) + 1;
-    regionData[region] = (regionData[region] || 0) + 1;
-    cityData[city] = (cityData[city] || 0) + 1;
-    osData[os] = (osData[os] || 0) + 1;
+  const allSessions = Array.from(sessionsMap.values());
+  const totalSessions = allSessions.length;
+  
+  // Calculate Users
+  const uniqueUsers = new Set(visits.map(v => v.ip)).size;
+  const totalVisits = visits.length;
+
+  let totalBounceCount = 0;
+  let totalTimeOnSiteNonBounces = 0;
+  let nonBounceCount = 0;
+
+  // Data maps
+  const dailyData = new Map<string, { pageviews: number, users: Set<string>, sessions: number, time: number, nonBounces: number, bounces: number }>();
+  const landingPages = new Map<string, { sessions: number, users: Set<string>, bounces: number, time: number, nonBounces: number }>();
+  const exitPages = new Map<string, number>();
+  const referrers = new Map<string, { sessions: number, users: Set<string> }>();
+  const countries = new Map<string, { sessions: number, users: Set<string>, pageviews: number, bounces: number, time: number, nonBounces: number }>();
+  const devices = { mobile: 0, desktop: 0, tablet: 0 };
+  
+  // Initialize daily data
+  for (let i = 29; i >= 0; i--) {
+    dailyData.set(format(subDays(new Date(), i), 'MMM dd'), { pageviews: 0, users: new Set(), sessions: 0, time: 0, nonBounces: 0, bounces: 0 });
+  }
+
+  // Iterate over sessions to calculate session-level metrics
+  allSessions.forEach(sessionVisits => {
+    const firstVisit = sessionVisits[0];
+    const lastVisit = sessionVisits[sessionVisits.length - 1];
+    const isBounce = sessionVisits.length === 1;
+    const timeOnSite = isBounce ? 0 : (new Date(lastVisit.createdAt).getTime() - new Date(firstVisit.createdAt).getTime()) / 1000; // in seconds
+    
+    if (isBounce) totalBounceCount++;
+    else {
+      totalTimeOnSiteNonBounces += timeOnSite;
+      nonBounceCount++;
+    }
+
+    const day = format(new Date(firstVisit.createdAt), 'MMM dd');
+    const ip = firstVisit.ip;
+    const landingPath = firstVisit.path || '/';
+    const exitPath = lastVisit.path || '/';
+    const country = safeDecode(firstVisit.country);
     
     let ref = 'Direct';
     try {
-      ref = (v.referrer && v.referrer !== 'Unknown' && v.referrer !== 'Direct') ? new URL(v.referrer).hostname : 'Direct';
+      ref = (firstVisit.referrer && firstVisit.referrer !== 'Unknown' && firstVisit.referrer !== 'Direct') ? new URL(firstVisit.referrer).hostname : 'Direct';
     } catch(e) {}
-    referrerData[ref] = (referrerData[ref] || 0) + 1;
-    
-    pageData[v.path] = (pageData[v.path] || 0) + 1;
 
-    if (v.device === 'mobile') deviceData.mobile++;
-    else if (v.device === 'tablet') deviceData.tablet++;
-    else deviceData.desktop++;
+    // Daily Stats
+    if (dailyData.has(day)) {
+      const d = dailyData.get(day)!;
+      d.sessions++;
+      d.users.add(ip);
+      d.pageviews += sessionVisits.length;
+      if (isBounce) d.bounces++;
+      else { d.nonBounces++; d.time += timeOnSite; }
+    }
+
+    // Landing Pages
+    if (!landingPages.has(landingPath)) landingPages.set(landingPath, { sessions: 0, users: new Set(), bounces: 0, time: 0, nonBounces: 0 });
+    const lp = landingPages.get(landingPath)!;
+    lp.sessions++;
+    lp.users.add(ip);
+    if (isBounce) lp.bounces++;
+    else { lp.nonBounces++; lp.time += timeOnSite; }
+
+    // Exit Pages
+    exitPages.set(exitPath, (exitPages.get(exitPath) || 0) + 1);
+
+    // Referrers
+    if (!referrers.has(ref)) referrers.set(ref, { sessions: 0, users: new Set() });
+    const r = referrers.get(ref)!;
+    r.sessions++;
+    r.users.add(ip);
+
+    // Countries
+    if (!countries.has(country)) countries.set(country, { sessions: 0, users: new Set(), pageviews: 0, bounces: 0, time: 0, nonBounces: 0 });
+    const c = countries.get(country)!;
+    c.sessions++;
+    c.users.add(ip);
+    c.pageviews += sessionVisits.length;
+    if (isBounce) c.bounces++;
+    else { c.nonBounces++; c.time += timeOnSite; }
+
+    // Devices
+    if (firstVisit.device === 'mobile') devices.mobile++;
+    else if (firstVisit.device === 'tablet') devices.tablet++;
+    else devices.desktop++;
   });
 
-  const chartData = Object.keys(dailyData).map(date => ({
+  // Format Time Function
+  const formatTime = (seconds: number) => {
+    if (!seconds || isNaN(seconds)) return "0:00";
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  };
+
+  // Prepare Chart Data
+  const chartData = Array.from(dailyData.entries()).map(([date, data]) => ({
     date,
-    visits: dailyData[date]
+    pageviews: data.pageviews,
+    sessions: data.sessions,
+    users: data.users.size,
+    bounceRate: data.sessions > 0 ? Number(((data.bounces / data.sessions) * 100).toFixed(2)) : 0,
+    timeOnSite: data.nonBounces > 0 ? Number((data.time / data.nonBounces).toFixed(0)) : 0
   }));
-  
-  const hourChartData = Object.keys(hourData).map(hour => ({
-    hour,
-    visits: hourData[hour]
-  }));
 
-  const topCountries = Object.entries(countryData)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([name, value]) => ({ name, value }));
-    
-  const topRegions = Object.entries(regionData)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([name, value]) => ({ name, value }));
+  const topLandingPages = Array.from(landingPages.entries())
+    .map(([path, data]) => ({
+      path,
+      sessions: data.sessions,
+      users: data.users.size,
+      bounceRate: data.sessions > 0 ? ((data.bounces / data.sessions) * 100).toFixed(2) : "0.00",
+      timeOnSite: formatTime(data.nonBounces > 0 ? data.time / data.nonBounces : 0),
+      timeSeconds: data.nonBounces > 0 ? data.time / data.nonBounces : 0
+    }))
+    .sort((a, b) => b.sessions - a.sessions);
 
-  const topCities = Object.entries(cityData)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([name, value]) => ({ name, value }));
-  const topPages = Object.entries(pageData)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([name, value]) => ({ name, value }));
+  const topExitPages = Array.from(exitPages.entries())
+    .map(([path, value]) => ({ name: path, value }))
+    .sort((a, b) => b.value - a.value);
 
-  const topReferrers = Object.entries(referrerData)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([name, value]) => ({ name, value }));
-    
-  const osList = Object.entries(osData)
-    .sort((a, b) => b[1] - a[1])
-    .map(([name, value]) => ({ name, value }));
+  const topReferrers = Array.from(referrers.entries())
+    .map(([name, data]) => ({ name, value: data.sessions, users: data.users.size }))
+    .sort((a, b) => b.value - a.value);
+
+  const topCountries = Array.from(countries.entries())
+    .map(([name, data]) => ({
+      name,
+      sessions: data.sessions,
+      users: data.users.size,
+      pageviews: data.pageviews,
+    }))
+    .sort((a, b) => b.sessions - a.sessions);
+
+  const avgBounceRate = totalSessions > 0 ? ((totalBounceCount / totalSessions) * 100).toFixed(2) : "0.00";
+  const avgTimeOnSite = formatTime(nonBounceCount > 0 ? totalTimeOnSiteNonBounces / nonBounceCount : 0);
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto">
+    <div className="space-y-6 animate-in fade-in duration-500 max-w-[1600px] mx-auto p-2">
       <div>
         <h1 className="text-3xl font-bold font-serif text-white tracking-tight">Advanced Analytics</h1>
-        <p className="text-slate-400 mt-2">Executive dashboard with traffic sources, device profiling, and conversions (Last 30 days).</p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-3xl p-6 relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0095f6]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-          <p className="text-sm font-medium text-slate-400 mb-1">Total Visits</p>
-          <p className="text-4xl font-bold text-white font-serif">{totalVisits.toLocaleString()}</p>
-        </div>
-        <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-3xl p-6 relative overflow-hidden group">
-           <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-          <p className="text-sm font-medium text-slate-400 mb-1">Unique Visitors</p>
-          <p className="text-4xl font-bold text-white font-serif">{uniqueIPs.toLocaleString()}</p>
-        </div>
-        <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-3xl p-6 relative overflow-hidden group">
-           <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-          <p className="text-sm font-medium text-slate-400 mb-1">Mobile Traffic</p>
-          <p className="text-4xl font-bold text-white font-serif">{mobilePercent}%</p>
-        </div>
-        <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-3xl p-6 relative overflow-hidden group">
-           <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-          <p className="text-sm font-medium text-slate-400 mb-1">CTA Conversions</p>
-          <p className="text-4xl font-bold text-white font-serif">{conversions.toLocaleString()}</p>
-        </div>
+        <p className="text-slate-400 mt-2">Comprehensive session-based analytics over the last 30 days.</p>
       </div>
 
       <AnalyticsCharts 
         chartData={chartData} 
         topCountries={topCountries} 
-        topRegions={topRegions}
-        topCities={topCities}
-        deviceData={deviceData} 
-        hourChartData={hourChartData}
-        topPages={topPages}
+        landingPages={topLandingPages}
+        exitPages={topExitPages}
+        deviceData={devices} 
         topReferrers={topReferrers}
-        osList={osList}
+        kpis={{
+          sessions: totalSessions,
+          users: uniqueUsers,
+          pageviews: totalVisits,
+          bounceRate: avgBounceRate,
+          timeOnSite: avgTimeOnSite
+        }}
       />
     </div>
   );
