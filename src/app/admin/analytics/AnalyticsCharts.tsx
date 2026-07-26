@@ -4,7 +4,7 @@ import {
   ComposedChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   AreaChart, Area, PieChart, Pie, Cell, Legend
 } from "recharts";
-import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import { ComposableMap, Geographies, Geography, Sphere, Graticule } from "react-simple-maps";
 import { scaleLinear } from "d3-scale";
 import { useState, useEffect } from "react";
 
@@ -15,7 +15,7 @@ const PIE_COLORS = { desktop: '#0095f6', mobile: '#ec4899', tablet: '#f59e0b' };
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
 const LocationTreeNode = ({ node, maxSessions, depth = 0 }: { node: any, maxSessions: number, depth?: number }) => {
-  const [isOpen, setIsOpen] = useState(depth === 0);
+  const [isOpen, setIsOpen] = useState(false); // Collapsed by default
   const hasChildren = node.children && node.children.length > 0;
   const width = Math.max((node.sessions / maxSessions) * 100, 1);
   
@@ -263,38 +263,41 @@ export default function AnalyticsCharts({
 
       </div>
 
-      {/* Geolocation & Data Table Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
-        {/* Map */}
-        <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 shadow-xl flex flex-col">
-          <h2 className="text-lg font-serif font-bold text-white uppercase tracking-wider mb-6">Countries by Sessions</h2>
-          <div className="h-[300px] w-full border border-slate-800/50 rounded-xl overflow-hidden bg-[#0a0f1c] flex-grow relative mb-6">
-            <ComposableMap projectionConfig={{ scale: 120 }}>
-              <Geographies geography={geoUrl}>
-                {({ geographies }) =>
-                  geographies.map((geo) => {
-                    const countryName = geo.properties.name;
-                    const d = topCountries.find((s: any) => s.name === countryName || s.name.includes(countryName));
-                    return (
-                      <Geography
-                        key={geo.rsmKey}
-                        geography={geo}
-                        fill={d ? colorScale(d.sessions) : "#1e293b"}
-                        stroke="#0f172a"
-                        strokeWidth={0.5}
-                        style={{
-                          hover: { fill: "#3b82f6", outline: "none" },
-                          pressed: { fill: "#2563eb", outline: "none" },
-                          default: { outline: "none" }
-                        }}
-                      />
-                    );
-                  })
-                }
-              </Geographies>
-            </ComposableMap>
+      {/* Geolocation Row */}
+      <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 shadow-xl flex flex-col w-full">
+        <h2 className="text-lg font-serif font-bold text-white uppercase tracking-wider mb-6">Countries by Sessions</h2>
+        <div className="w-full h-[500px] border border-slate-800/50 rounded-xl overflow-hidden bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-900 to-[#0a0f1c] flex-grow relative mb-6 shadow-inner">
+          <ComposableMap projectionConfig={{ scale: 150 }} className="w-full h-full">
+            <Sphere stroke="#1e293b" strokeWidth={0.5} id="sphere" fill="transparent" />
+            <Graticule stroke="#1e293b" strokeWidth={0.5} />
+            <Geographies geography={geoUrl}>
+              {({ geographies }) =>
+                geographies.map((geo) => {
+                  const countryName = geo.properties.name;
+                  const d = topCountries.find((s: any) => s.name === countryName || s.name.includes(countryName));
+                  return (
+                    <Geography
+                      key={geo.rsmKey}
+                      geography={geo}
+                      fill={d ? colorScale(d.sessions) : "#1e293b"}
+                      stroke="#0f172a"
+                      strokeWidth={0.5}
+                      style={{
+                        hover: { fill: "#38bdf8", outline: "none", transition: "all 0.3s" },
+                        pressed: { fill: "#0284c7", outline: "none" },
+                        default: { outline: "none", transition: "all 0.3s" }
+                      }}
+                    />
+                  );
+                })
+              }
+            </Geographies>
+          </ComposableMap>
         </div>
+      </div>
+
+      {/* Data Table Row */}
+      <div className="w-full">
 
         {/* Landing Performance Table */}
         <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 shadow-xl overflow-x-auto">
@@ -333,8 +336,6 @@ export default function AnalyticsCharts({
              return <LocationTreeNode key={idx} node={node} maxSessions={maxSessions} />;
           })}
         </div>
-      </div>
-
       </div>
 
     </div>
