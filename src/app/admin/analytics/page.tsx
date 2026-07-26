@@ -51,6 +51,7 @@ export default async function AnalyticsPage() {
   const countries = new Map<string, { sessions: number, users: Set<string>, pageviews: number, bounces: number, time: number, nonBounces: number }>();
   const regions = new Map<string, number>();
   const cities = new Map<string, number>();
+  const locationTree = new Map<string, any>();
   const devices = { mobile: 0, desktop: 0, tablet: 0 };
   
   // Initialize daily data
@@ -139,6 +140,33 @@ export default async function AnalyticsPage() {
       cities.set(city, cities.get(city)! + 1);
     }
 
+    // Location Tree (Country -> Region -> City)
+    const treeCountry = country;
+    const treeRegion = (region && region !== 'Unknown') ? region : null;
+    const treeCity = (city && city !== 'Unknown') ? city : null;
+    
+    if (!locationTree.has(treeCountry)) {
+      locationTree.set(treeCountry, { name: treeCountry, sessions: 0, children: new Map() });
+    }
+    const cNode = locationTree.get(treeCountry)!;
+    cNode.sessions++;
+
+    if (treeRegion) {
+      if (!cNode.children.has(treeRegion)) {
+        cNode.children.set(treeRegion, { name: treeRegion, sessions: 0, children: new Map() });
+      }
+      const rNode = cNode.children.get(treeRegion)!;
+      rNode.sessions++;
+
+      if (treeCity) {
+        if (!rNode.children.has(treeCity)) {
+          rNode.children.set(treeCity, { name: treeCity, sessions: 0 });
+        }
+        const cityNode = rNode.children.get(treeCity)!;
+        cityNode.sessions++;
+      }
+    }
+
     // Devices
     if (firstVisit.device === 'mobile') devices.mobile++;
     else if (firstVisit.device === 'tablet') devices.tablet++;
@@ -201,6 +229,18 @@ export default async function AnalyticsPage() {
     .sort((a, b) => b.sessions - a.sessions)
     .slice(0, 10);
 
+  // Format Location Tree
+  const formatTree = (map: Map<string, any>): any[] => {
+    return Array.from(map.values())
+      .map(node => ({
+        name: node.name,
+        sessions: node.sessions,
+        children: node.children ? formatTree(node.children) : undefined
+      }))
+      .sort((a, b) => b.sessions - a.sessions);
+  };
+  const treeData = formatTree(locationTree);
+
   const avgBounceRate = totalSessions > 0 ? ((totalBounceCount / totalSessions) * 100).toFixed(2) : "0.00";
   const avgTimeOnSite = formatTime(nonBounceCount > 0 ? totalTimeOnSiteNonBounces / nonBounceCount : 0);
 
@@ -216,6 +256,7 @@ export default async function AnalyticsPage() {
         topCountries={topCountries} 
         topRegions={topRegions}
         topCities={topCities}
+        treeData={treeData}
         landingPages={topLandingPages}
         exitPages={topExitPages}
         deviceData={devices} 

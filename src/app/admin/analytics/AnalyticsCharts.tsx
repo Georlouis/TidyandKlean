@@ -14,8 +14,49 @@ const PIE_COLORS = { desktop: '#0095f6', mobile: '#ec4899', tablet: '#f59e0b' };
 // Simplified geojson URL for maps
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
+const LocationTreeNode = ({ node, maxSessions, depth = 0 }: { node: any, maxSessions: number, depth?: number }) => {
+  const [isOpen, setIsOpen] = useState(depth === 0);
+  const hasChildren = node.children && node.children.length > 0;
+  const width = Math.max((node.sessions / maxSessions) * 100, 1);
+  
+  const colorClass = depth === 0 ? "from-blue-500 to-cyan-300" : depth === 1 ? "from-fuchsia-500 to-purple-400" : "from-emerald-400 to-amber-300";
+  
+  return (
+    <div className="flex flex-col space-y-1 w-full">
+      <div 
+        className={`flex items-center text-sm ${hasChildren ? 'cursor-pointer hover:bg-slate-800/30' : ''} p-2 rounded-lg transition-colors`}
+        onClick={() => hasChildren && setIsOpen(!isOpen)}
+        style={{ paddingLeft: `${depth * 1.5 + 0.5}rem` }}
+      >
+        <div className="w-5 shrink-0 flex items-center justify-center text-slate-500">
+          {hasChildren && (
+            <svg className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          )}
+        </div>
+        <div className="w-32 text-left pr-4 text-slate-300 truncate shrink-0">{node.name}</div>
+        <div className="w-12 text-right pr-4 text-white font-medium shrink-0">{node.sessions}</div>
+        <div className="flex-grow flex items-center h-4 relative">
+           <div className="absolute inset-0 w-full flex items-center">
+              <div className="w-full border-b border-dashed border-slate-800/40"></div>
+           </div>
+           <div className={`h-3 rounded-full bg-gradient-to-r ${colorClass} relative z-10 transition-all duration-500`} style={{ width: `${width}%` }} />
+        </div>
+      </div>
+      {isOpen && hasChildren && (
+        <div className="flex flex-col space-y-1 w-full mt-1">
+          {node.children.map((child: any, idx: number) => (
+            <LocationTreeNode key={idx} node={child} maxSessions={maxSessions} depth={depth + 1} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 export default function AnalyticsCharts({ 
-  chartData, topCountries, topRegions, topCities, landingPages, exitPages, deviceData, topReferrers, kpis
+  chartData, topCountries, topRegions, topCities, treeData, landingPages, exitPages, deviceData, topReferrers, kpis
 }: any) {
   
   const formattedDeviceData = [
@@ -283,72 +324,14 @@ export default function AnalyticsCharts({
         </div>
       </div>
 
-      {/* Geolocation Top Lists Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Top Countries List */}
-        <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 shadow-xl">
-          <h2 className="text-lg font-serif font-bold text-white mb-6 tracking-wide">Top Countries</h2>
-          <div className="space-y-4">
-            {topCountries.slice(0, 5).map((country: any, idx: number) => {
-              const maxSessions = topCountries[0]?.sessions || 1;
-              const width = Math.max((country.sessions / maxSessions) * 100, 2);
-              return (
-                <div key={idx} className="flex items-center text-sm">
-                  <div className="w-20 text-right pr-4 text-slate-300 truncate shrink-0">{country.name}</div>
-                  <div className="flex-grow flex items-center h-4 relative">
-                     <div className="absolute inset-0 w-full flex items-center">
-                        <div className="w-full border-b border-dashed border-slate-800/40"></div>
-                     </div>
-                     <div className="h-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-300 relative z-10" style={{ width: `${width}%` }} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Top States / Regions List */}
-        <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 shadow-xl">
-          <h2 className="text-lg font-serif font-bold text-white mb-6 tracking-wide">Top States / Regions</h2>
-          <div className="space-y-4">
-            {topRegions?.slice(0, 5).map((region: any, idx: number) => {
-              const maxSessions = topRegions[0]?.sessions || 1;
-              const width = Math.max((region.sessions / maxSessions) * 100, 2);
-              return (
-                <div key={idx} className="flex items-center text-sm">
-                  <div className="w-24 text-right pr-4 text-slate-300 truncate shrink-0">{region.name}</div>
-                  <div className="flex-grow flex items-center h-4 relative">
-                     <div className="absolute inset-0 w-full flex items-center">
-                        <div className="w-full border-b border-dashed border-slate-800/40"></div>
-                     </div>
-                     <div className="h-3 rounded-full bg-gradient-to-r from-fuchsia-500 to-purple-400 relative z-10" style={{ width: `${width}%` }} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Top Cities List */}
-        <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 shadow-xl">
-          <h2 className="text-lg font-serif font-bold text-white mb-6 tracking-wide">Top Cities</h2>
-          <div className="space-y-4">
-            {topCities?.slice(0, 5).map((city: any, idx: number) => {
-              const maxSessions = topCities[0]?.sessions || 1;
-              const width = Math.max((city.sessions / maxSessions) * 100, 2);
-              return (
-                <div key={idx} className="flex items-center text-sm">
-                  <div className="w-24 text-right pr-4 text-slate-300 truncate shrink-0">{city.name}</div>
-                  <div className="flex-grow flex items-center h-4 relative">
-                     <div className="absolute inset-0 w-full flex items-center">
-                        <div className="w-full border-b border-dashed border-slate-800/40"></div>
-                     </div>
-                     <div className="h-3 rounded-full bg-gradient-to-r from-emerald-400 to-amber-300 relative z-10" style={{ width: `${width}%` }} />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+      {/* Hierarchical Location Tree */}
+      <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 shadow-xl w-full">
+        <h2 className="text-lg font-serif font-bold text-white mb-6 tracking-wide">Traffic Sources Tree (Country &gt; Region &gt; City)</h2>
+        <div className="space-y-1">
+          {treeData?.map((node: any, idx: number) => {
+             const maxSessions = treeData[0]?.sessions || 1;
+             return <LocationTreeNode key={idx} node={node} maxSessions={maxSessions} />;
+          })}
         </div>
       </div>
 
