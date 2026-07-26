@@ -50,6 +50,7 @@ export default async function AnalyticsPage() {
   const referrers = new Map<string, { sessions: number, users: Set<string> }>();
   const countries = new Map<string, { sessions: number, users: Set<string>, pageviews: number, bounces: number, time: number, nonBounces: number }>();
   const regions = new Map<string, number>();
+  const cities = new Map<string, number>();
   const devices = { mobile: 0, desktop: 0, tablet: 0 };
   
   // Initialize daily data
@@ -131,6 +132,13 @@ export default async function AnalyticsPage() {
       regions.set(region, regions.get(region)! + 1);
     }
 
+    // Cities
+    const city = safeDecode(firstVisit.city);
+    if (city && city !== 'Unknown') {
+      if (!cities.has(city)) cities.set(city, 0);
+      cities.set(city, cities.get(city)! + 1);
+    }
+
     // Devices
     if (firstVisit.device === 'mobile') devices.mobile++;
     else if (firstVisit.device === 'tablet') devices.tablet++;
@@ -188,6 +196,11 @@ export default async function AnalyticsPage() {
     .sort((a, b) => b.sessions - a.sessions)
     .slice(0, 10);
 
+  const topCities = Array.from(cities.entries())
+    .map(([name, sessions]) => ({ name, sessions }))
+    .sort((a, b) => b.sessions - a.sessions)
+    .slice(0, 10);
+
   const avgBounceRate = totalSessions > 0 ? ((totalBounceCount / totalSessions) * 100).toFixed(2) : "0.00";
   const avgTimeOnSite = formatTime(nonBounceCount > 0 ? totalTimeOnSiteNonBounces / nonBounceCount : 0);
 
@@ -201,6 +214,8 @@ export default async function AnalyticsPage() {
       <AnalyticsCharts 
         chartData={chartData} 
         topCountries={topCountries} 
+        topRegions={topRegions}
+        topCities={topCities}
         landingPages={topLandingPages}
         exitPages={topExitPages}
         deviceData={devices} 

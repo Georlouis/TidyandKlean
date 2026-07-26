@@ -15,7 +15,7 @@ const PIE_COLORS = { desktop: '#0095f6', mobile: '#ec4899', tablet: '#f59e0b' };
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
 export default function AnalyticsCharts({ 
-  chartData, topCountries, topRegions, landingPages, exitPages, deviceData, topReferrers, kpis
+  chartData, topCountries, topRegions, topCities, landingPages, exitPages, deviceData, topReferrers, kpis
 }: any) {
   
   const formattedDeviceData = [
@@ -253,22 +253,6 @@ export default function AnalyticsCharts({
                 }
               </Geographies>
             </ComposableMap>
-          </div>
-          
-          {/* Top Regions List */}
-          {topRegions && topRegions.length > 0 && (
-            <div>
-              <h3 className="text-sm font-serif font-bold text-slate-400 uppercase tracking-wider mb-4">Top Regions (States)</h3>
-              <div className="grid grid-cols-2 gap-4">
-                {topRegions.slice(0, 8).map((region: any, idx: number) => (
-                  <div key={idx} className="flex justify-between items-center text-sm border-b border-slate-800/50 pb-2">
-                    <span className="text-slate-300 truncate pr-2">{region.name}</span>
-                    <span className="text-white font-medium">{region.sessions}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Landing Performance Table */}
@@ -297,6 +281,77 @@ export default function AnalyticsCharts({
             </tbody>
           </table>
         </div>
+      </div>
+
+      {/* Geolocation Top Lists Row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Top Countries List */}
+        <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 shadow-xl">
+          <h2 className="text-lg font-serif font-bold text-white mb-6 tracking-wide">Top Countries</h2>
+          <div className="space-y-4">
+            {topCountries.slice(0, 5).map((country: any, idx: number) => {
+              const maxSessions = topCountries[0]?.sessions || 1;
+              const width = Math.max((country.sessions / maxSessions) * 100, 2);
+              return (
+                <div key={idx} className="flex items-center text-sm">
+                  <div className="w-20 text-right pr-4 text-slate-300 truncate shrink-0">{country.name}</div>
+                  <div className="flex-grow flex items-center h-4 relative">
+                     <div className="absolute inset-0 w-full flex items-center">
+                        <div className="w-full border-b border-dashed border-slate-800/40"></div>
+                     </div>
+                     <div className="h-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-300 relative z-10" style={{ width: `${width}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Top States / Regions List */}
+        <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 shadow-xl">
+          <h2 className="text-lg font-serif font-bold text-white mb-6 tracking-wide">Top States / Regions</h2>
+          <div className="space-y-4">
+            {topRegions?.slice(0, 5).map((region: any, idx: number) => {
+              const maxSessions = topRegions[0]?.sessions || 1;
+              const width = Math.max((region.sessions / maxSessions) * 100, 2);
+              return (
+                <div key={idx} className="flex items-center text-sm">
+                  <div className="w-24 text-right pr-4 text-slate-300 truncate shrink-0">{region.name}</div>
+                  <div className="flex-grow flex items-center h-4 relative">
+                     <div className="absolute inset-0 w-full flex items-center">
+                        <div className="w-full border-b border-dashed border-slate-800/40"></div>
+                     </div>
+                     <div className="h-3 rounded-full bg-gradient-to-r from-fuchsia-500 to-purple-400 relative z-10" style={{ width: `${width}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Top Cities List */}
+        <div className="bg-slate-900/40 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-6 shadow-xl">
+          <h2 className="text-lg font-serif font-bold text-white mb-6 tracking-wide">Top Cities</h2>
+          <div className="space-y-4">
+            {topCities?.slice(0, 5).map((city: any, idx: number) => {
+              const maxSessions = topCities[0]?.sessions || 1;
+              const width = Math.max((city.sessions / maxSessions) * 100, 2);
+              return (
+                <div key={idx} className="flex items-center text-sm">
+                  <div className="w-24 text-right pr-4 text-slate-300 truncate shrink-0">{city.name}</div>
+                  <div className="flex-grow flex items-center h-4 relative">
+                     <div className="absolute inset-0 w-full flex items-center">
+                        <div className="w-full border-b border-dashed border-slate-800/40"></div>
+                     </div>
+                     <div className="h-3 rounded-full bg-gradient-to-r from-emerald-400 to-amber-300 relative z-10" style={{ width: `${width}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
       </div>
 
     </div>
