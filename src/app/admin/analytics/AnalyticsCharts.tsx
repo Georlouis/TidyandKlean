@@ -274,7 +274,7 @@ export default function AnalyticsCharts({
               {({ geographies }) =>
                 geographies.map((geo) => {
                   const countryName = geo.properties.name;
-                  const d = topCountries.find((s: any) => s.name === countryName || s.name.includes(countryName));
+                  const d = topCountries.find((s: any) => s.name === countryName || countryName.includes(s.name) || s.name.includes(countryName));
                   return (
                     <Geography
                       key={geo.rsmKey}
